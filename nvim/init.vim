@@ -24,4 +24,3 @@ source /usr/share/vim/vim85/plugin/stdheader.vim
 noremap <C-h> :Stdheader<CR>
 noremap <C-d> :NvimTreeToggle<CR>
 nnoremap <C-s> :w<CR>
-

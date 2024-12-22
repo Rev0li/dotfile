@@ -1,7 +1,21 @@
 lua << EOF
 require'nvim-tree'.setup {
+	open_on_setup = true,
+    open_on_tab = true,
+    update_cwd = true,
+    diagnostics = {
+        enable = true,
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        }
+    },
     view = {
-        width = 30,
+		width = function()
+            return math.floor(vim.o.columns * 0.2)
+        end,
         side = 'left'
     },
     renderer = {
@@ -39,3 +53,6 @@ require'nvim-tree'.setup {
     }
 }
 EOF
+-- Raccourci pour basculer NvimTree
+vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+
