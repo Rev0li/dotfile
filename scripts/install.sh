@@ -16,8 +16,8 @@ install_oh_my_zsh() {
 # Function to install Zsh plugins
 install_zsh_plugins() {
   ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
-  git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions 2>/dev/null || true
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting 2>/dev/null || true
   log+=("✔️ Plugins Zsh installés (zsh-autosuggestions, zsh-syntax-highlighting).")
 }
 
@@ -36,19 +36,49 @@ configure_nvim() {
   log+=("✔️ Plugins Neovim installés.")
 }
 
+install_nerd_font() {
+  FONT_NAME="FiraCode"
+  FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip"
+  FONT_DIR="$HOME/.local/share/fonts"
+
+  echo "Téléchargement de la police Nerd Font ($FONT_NAME)..."
+  mkdir -p "$FONT_DIR"
+  curl -Lo "$FONT_DIR/$FONT_NAME.zip" "$FONT_URL"
+
+  echo "Extraction des fichiers de police..."
+  unzip -o "$FONT_DIR/$FONT_NAME.zip" -d "$FONT_DIR" > /dev/null
+  rm "$FONT_DIR/$FONT_NAME.zip"
+
+  echo "Mise à jour du cache des polices utilisateur..."
+  fc-cache -fv "$FONT_DIR" > /dev/null
+  log+=("✔️ Police $FONT_NAME Nerd Font installée.")
+}
+
+
 # Function to symlink files
 symlink_files() {
-	SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-	ln -sf "$SCRIPT_DIR/../zsh/.zshrc" "$HOME/.zshrc"
+  # Handle .zshrc
+  if [ -e "$HOME/.zshrc" ]; then
+    rm -f "$HOME/.zshrc"
+    log+=("✔️ Ancien fichier ~/.zshrc supprimé.")
+  fi
+  ln -sf $PWD/../zsh/.zshrc $HOME/.zshrc
+  log+=("✔️ Fichier ~/.zshrc lié.")
 
-	mkdir -p $HOME/.config
-	ln -sf "$SCRIPT_DIR/../zsh/.zshrc" "$HOME/.config/"
-	log+=("✔️ Fichiers de configuration liés.")
+  # Handle Neovim config
+  if [ -e "$HOME/.config/nvim" ]; then
+    rm -rf "$HOME/.config/nvim"
+    log+=("✔️ Ancienne configuration Neovim supprimée.")
+  fi
+  mkdir -p $HOME/.config
+  ln -sf $PWD/../nvim $HOME/.config/nvim
+  log+=("✔️ Configuration Neovim liée.")
 }
 
 # Run the installation steps
 install_oh_my_zsh
 install_zsh_plugins
+install_nerd_font
 configure_nvim
 symlink_files
 
@@ -60,18 +90,6 @@ echo "==============================="
 for message in "${log[@]}"; do
   echo "$message"
 done
-
-echo
-echo "Rechargement du fichier .zshrc..."
-if [ -n "$ZSH_NAME" ]; then
-  # Si nous sommes déjà dans Zsh, recharger .zshrc
-  source $HOME/.zshrc
-else
-  # Si nous sommes dans Bash, lancer Zsh
-  echo "Lancement de Zsh pour appliquer la configuration..."
-  exec zsh
-fi
-log+=("✔️ Fichier .zshrc rechargé.")
 
 echo "==============================="
 echo "Installation terminée. Rechargez votre terminal si nécessaire !"

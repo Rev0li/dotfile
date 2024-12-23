@@ -1,7 +1,4 @@
-lua << EOF
 require'nvim-tree'.setup {
-	open_on_setup = true,
-    open_on_tab = true,
     update_cwd = true,
     diagnostics = {
         enable = true,
@@ -52,7 +49,3 @@ require'nvim-tree'.setup {
         }
     }
 }
-EOF
--- Raccourci pour basculer NvimTree
-vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-
