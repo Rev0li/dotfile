@@ -18,7 +18,8 @@ alias ll="ls -lah"
 alias gs="git status"
 alias gd="git diff"
 alias ..="cd .."
-
+alias nv="nvim"
+alias src="source ~/.zshrc"
 # Fuzzy finder (fzf) configuration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
