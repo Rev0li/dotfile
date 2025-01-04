@@ -20,6 +20,9 @@ alias gd="git diff"
 alias ..="cd .."
 alias nv="nvim"
 alias src="source ~/.zshrc"
+alias shortcuts="alias | sed -e 's/alias //g' | column -t -s '='"
+alias shortcut="grep '^alias ' ~/.zshrc | sed -e 's/^alias //' | column -t -s '='"
+
 # Fuzzy finder (fzf) configuration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
