@@ -52,8 +52,18 @@ require("lazy").setup({
 	{
 		"voldikss/vim-floaterm",
 		config = function()
-			vim.g.floaterm_position = "bottom" -- Position en bas
-			vim.g.floaterm_height = 0.3 --30% de la hauteur de l'écran
+			-- 📌 Position en plein écran
+			vim.g.floaterm_position = "center"
+
+			-- 📌 Taille max : 100% hauteur, 100% largeur
+			vim.g.floaterm_width = 100.0
+			vim.g.floaterm_height = 30.0
+
+			-- 📌 Supprime la bordure épaisse
+			vim.g.floaterm_borderchars = '        '
+
+			-- 📌 Désactive les bordures flottantes de Neovim
+			vim.g.floaterm_wintype = "float"
 		end,
 	},
 	---------------------------------

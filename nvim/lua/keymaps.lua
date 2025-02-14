@@ -25,15 +25,13 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'help tags' })
 -- Floaterm
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>:FloatermHide<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>t', ':FloatermToggle<CR>',
-	{ noremap = true, silent = true, desc = 'Open Terminal' })
+{ noremap = true, silent = true, desc = 'Open Terminal' })
 
 
 -- iLoad file -> stdheader.vim
 local header_path = "/usr/share/vim/vim85/plugin/stdheader.vim"
 if vim.loop.fs_stat(header_path) then
 	vim.cmd("source " .. header_path)
-else
-	print("⚠️ stdheader.vim introuvable, pas de header 42 !")
 end
 
 -- Header school 42
