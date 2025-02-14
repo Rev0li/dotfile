@@ -39,3 +39,8 @@ setopt HIST_FIND_NO_DUPS  # Pas de doublons dans l'historique
 bindkey -v           # Mode vi
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/hikaru/dev/dotfile/nvim/nvim-linux64/bin:$PATH"
+export PATH="/home/hikaru/dev/dotfile/nvim/nvim-linux64/bin:$PATH"
+export PATH="/home/hikaru/dev/dotfile/nvim/nvim-linux64/bin:$PATH"
+export PATH="/home/hikaru/dev/dotfile/nvim/nvim-linux64/bin:$PATH"
+source ~/.zsh_custom
