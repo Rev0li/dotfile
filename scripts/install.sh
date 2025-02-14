@@ -25,6 +25,10 @@ remove_old_configs() {
   rm -rf "$HOME/.config/nvim" "$HOME/.local/share/nvim" "$HOME/.cache/nvim"
   log+=("✔️ Anciennes installations de Neovim supprimées.")
   
+  # Supprimer les anciennes configurations de terminal
+  rm -rf "$HOME/.config/alacritty" "$HOME/.config/kitty"
+  log+=("✔️ Anciennes configurations de terminal supprimées.")
+  
   echo "✔️ Suppression des anciennes configurations terminée."
 }
 
@@ -88,6 +92,48 @@ install_nerd_font() {
   log+=("✔️ Police $FONT_NAME Nerd Font installée.")
 }
 
+
+# Function to install Kitty
+install_kitty() {
+  if command -v kitty &> /dev/null; then
+    log+=("✔️ Kitty est déjà installé.")
+    return
+  fi
+
+  log+=("🔄 Installation de Kitty...")
+
+  if [[ "$(uname -s)" == "Linux" ]]; then
+    if command -v apt &> /dev/null; then
+      sudo apt update && sudo apt install -y kitty
+    elif command -v pacman &> /dev/null; then
+      sudo pacman -S --noconfirm kitty
+    elif command -v dnf &> /dev/null; then
+      sudo dnf install -y kitty
+    elif command -v zypper &> /dev/null; then
+      sudo zypper install -y kitty
+    else
+      log+=("❌ Gestionnaire de paquets non pris en charge. Installez Kitty manuellement.")
+      return
+    fi
+  elif [[ "$(uname -s)" == "Darwin" ]]; then
+    if command -v brew &> /dev/null; then
+      brew install kitty
+    else
+      log+=("❌ Homebrew non installé. Installez Homebrew pour continuer.")
+      return
+    fi
+  else
+    log+=("❌ Système non pris en charge pour l'installation automatique de Kitty.")
+    return
+  fi
+
+  if command -v kitty &> /dev/null; then
+    log+=("✔️ Kitty installé avec succès.")
+  else
+    log+=("❌ L'installation de Kitty a échoué.")
+  fi
+}
+
 # Function to symlink files
 symlink_files() {
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -99,6 +145,12 @@ symlink_files() {
   mkdir -p "$HOME/.config"
   ln -sf "$DOTFILES_DIR/../nvim" "$HOME/.config/nvim"
   log+=("✔️ Configuration Neovim liée.")
+
+  # Lier la config Kitty depuis ton Dotfile
+  mkdir -p "$HOME/.config/kitty"
+  ln -sf "$DOTFILES_DIR/../terminal/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+  log+=("✔️ Configuration Kitty liée.")
+
 }
 
 # Run the uninstall first
