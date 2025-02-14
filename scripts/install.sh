@@ -1,4 +1,5 @@
 #!/bin/bash
+    export RUNZSH=no
 
 # Initialize a log array to store messages
 log=()
@@ -48,7 +49,7 @@ install_zsh_plugins() {
 # Function to configure Neovim
 configure_nvim() {
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  NVIM_DIR="$SCRIPT_DIR/nvim/nvim-linux64"
+  NVIM_DIR="$SCRIPT_DIR/../nvim/nvim-linux64"
   NVIM_BIN="$NVIM_DIR/bin/nvim"
   
   if [ ! -f "$NVIM_BIN" ]; then
