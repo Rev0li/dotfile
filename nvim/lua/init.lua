@@ -1,51 +1,8 @@
-require'nvim-tree'.setup {
-    update_cwd = true,
-    diagnostics = {
-        enable = true,
-        icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-        }
-    },
-    view = {
-		width = function()
-            return math.floor(vim.o.columns * 0.2)
-        end,
-        side = 'left'
-    },
-    renderer = {
-        icons = {
-            show = {
-                file = true,
-                folder = true,
-                folder_arrow = true,
-                git = true
-            },
-            glyphs = {
-                default = '',
-                symlink = '',
-                folder = {
-                    arrow_closed = "",
-                    arrow_open = "",
-                    default = "",
-                    open = "",
-                    empty = "",
-                    empty_open = "",
-                    symlink = "",
-                    symlink_open = "",
-                },
-                git = {
-                    unstaged = "✗",
-                    staged = "✓",
-                    unmerged = "",
-                    renamed = "➜",
-                    untracked = "★",
-                    deleted = "",
-                    ignored = "◌"
-                }
-            }
-        }
-    }
-}
+-- init.lua: Point d’entrée principal pour la configuration
+require("settings")   -- Options générales de Neovim
+require("plugins")    -- Gestionnaire de plugins
+require("keymaps")    -- Raccourcis personnalisés
+require("lsp")        -- Configuration des Language Servers
+require("treesitter") -- Configuration de Treesitter
+require("nvimtree")   -- Configuration de Nvim Tree
+vim.cmd("colorscheme habamax")

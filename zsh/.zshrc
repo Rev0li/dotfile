@@ -13,12 +13,16 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Détermine le chemin absolu du dossier contenant ce fichier .zshrc
+export DOTFILES_DIR=$(cd "$(dirname "$(readlink -f "${(%):-%x}")")/.." && pwd)
+
+
 # Aliases
 alias ll="ls -lah"
 alias gs="git status"
 alias gd="git diff"
 alias ..="cd .."
-alias nv="nvim"
+alias nv="$DOTFILES_DIR/nvim/nvim-linux64/bin/nvim"
 alias src="source ~/.zshrc"
 alias shortcuts="alias | sed -e 's/alias //g' | column -t -s '='"
 alias shortcut="grep '^alias ' ~/.zshrc | sed -e 's/^alias //' | column -t -s '='"
@@ -34,3 +38,4 @@ setopt AUTO_CD       # Accès rapide aux dossiers
 setopt HIST_FIND_NO_DUPS  # Pas de doublons dans l'historique
 bindkey -v           # Mode vi
 
+export PATH="$HOME/.local/bin:$PATH"
