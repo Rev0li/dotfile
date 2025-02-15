@@ -2,13 +2,13 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 # Theme
-ZSH_THEME="eastwood"  # Peut être modifié selon tes préférences
+ZSH_THEME="jonathan"  # Peut être modifié selon tes préférences
 
 # Plugins
 plugins=(
-  git
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+	git
+	zsh-autosuggestions
+	zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -39,3 +39,6 @@ setopt HIST_FIND_NO_DUPS  # Pas de doublons dans l'historique
 bindkey -v           # Mode vi
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/hika/dev/dotfile/nvim/../nvim/nvim-linux64/bin:$PATH"
+export PATH="/home/hika/dev/dotfile/nvim/../nvim/nvim-linux64/bin:$PATH"
+export PATH="/home/hika/dev/dotfile/nvim/nvim/nvim-linux64/bin:$PATH"

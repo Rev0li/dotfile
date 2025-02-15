@@ -79,7 +79,13 @@ symlink_files() {
 	fi
 	mkdir -p "$HOME/.config"
 	ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
-	log+=("✔️ Configuration Neovim liée.")
+	log+=("✔️ Configuration Neovim liée.") 
+
+	mkdir -p "$DOTFILES_DIR/terminal/themes"
+	cp ~/.config/kitty/themes/habamax.conf "$DOTFILES_DIR/terminal/themes/"
+	ln -sf "$DOTFILES_DIR/terminal/themes/habamax.conf" "$HOME/.config/kitty/themes/habamax.conf"
+	log+=("✔️ Thème Kitty habamax lié.")
+
 }
 
 install_oh_my_zsh
