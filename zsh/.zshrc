@@ -15,7 +15,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Détermine le chemin absolu du dossier contenant ce fichier .zshrc
 export DOTFILES_DIR=$(cd "$(dirname "$(readlink -f "${(%):-%x}")")/.." && pwd)
-
+export MAIL="okientzl@student.42lyon.fr"
 
 # Aliases
 alias ll="ls -lah"

@@ -11,7 +11,7 @@ require'nvim-tree'.setup {
     },
     view = {
 		width = function()
-            return math.floor(vim.o.columns * 0.5)
+            return math.floor(vim.o.columns * 0.25)
         end,
         side = 'left'
     },

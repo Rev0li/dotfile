@@ -1,5 +1,5 @@
 -- keymaps.lua: Raccourcis personnalisés
-vim.g.mapleader = "\\" -- Leader key
+vim.g.mapleader = " " -- Leader key
 
 -- Toggle NvimTree
 vim.api.nvim_set_keymap('n', '<leader>d', ':NvimTreeToggle<CR>', { noremap = true, silent = true, desc = 'TreeToggle' })
@@ -17,10 +17,8 @@ vim.api.nvim_set_keymap('n', '<C-Left>', ':tabprev<CR>', { noremap = true, silen
 
 -- Shortcut Telescope
 local status, builtin = pcall(require, "telescope.builtin")
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'live grep' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'help tags' })
+vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })
+
 
 -- Floaterm
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>:FloatermHide<CR>', { noremap = true, silent = true })

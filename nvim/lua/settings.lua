@@ -8,17 +8,7 @@ vim.opt.wrap = false          -- Désactive le retour à la ligne automatique
 vim.opt.ignorecase = true     -- Recherche insensible à la casse
 vim.opt.smartcase = true      -- Recherche intelligente
 
--- Auto-indent quand on quitte le mode insert
-vim.api.nvim_create_autocmd("InsertLeave", {
-	pattern = "*",
-	callback = function()
-		if next(vim.lsp.get_clients()) ~= nil then
-			vim.lsp.buf.format({ async = true }) -- Formate avec LSP s'il est actif
-		else
-			vim.cmd("normal! gg=G")     -- Indente le fichier si LSP n'est pas actif
-		end
-	end,
-})
+
 
 -- Auto-save quand on quitte le mode insert
 vim.api.nvim_create_autocmd("InsertLeave", {
