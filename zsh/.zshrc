@@ -26,7 +26,8 @@ alias nv="$DOTFILES_DIR/nvim/nvim-linux64/bin/nvim"
 alias src="source ~/.zshrc"
 alias shortcuts="alias | sed -e 's/alias //g' | column -t -s '='"
 alias shortcut="grep '^alias ' ~/.zshrc | sed -e 's/^alias //' | column -t -s '='"
-
+alias vald="~/Documents/valgrind_breaker"
+alias valfull="valgrind --leak-check=full --show-leak-kinds=definite "
 # Fuzzy finder (fzf) configuration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
