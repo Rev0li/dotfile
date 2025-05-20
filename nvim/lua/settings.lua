@@ -1,15 +1,28 @@
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.cursorline = true
-vim.opt.wrap = false
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = false
+-- ════════════════════════════════════════
+-- ⚙️  Options générales d'affichage
+-- ════════════════════════════════════════
+vim.opt.number = true                  -- Affiche les numéros de lignes
+vim.opt.relativenumber = true          -- Numéros relatifs
+vim.opt.cursorline = true              -- Surligne la ligne courante
+vim.opt.wrap = false                   -- Pas de retour à la ligne
+vim.opt.ignorecase = true              -- Ignore la casse dans les recherches
+vim.opt.smartcase = true               -- Respecte la casse si un caractère maj est présent
+
+-- ════════════════════════════════════════
+-- ⬛️  Indentation & tabulations
+-- ════════════════════════════════════════
+vim.opt.tabstop = 4                    -- Largeur d’un tab = 4 espaces visuellement
+vim.opt.shiftwidth = 4                -- Indentation à 4 espaces
+vim.opt.expandtab = false             -- Utilise de vraies tabulations (≠ espaces)
+
+-- ════════════════════════════════════════
+-- 🪟 Winbar (barre discrète en haut de chaque split)
+-- ════════════════════════════════════════
 vim.opt.winbar = "%=%m %f"
 
--- Affichage des caractères invisibles
+-- ════════════════════════════════════════
+-- 🔍 Affichage des caractères invisibles
+-- ════════════════════════════════════════
 vim.opt.list = true
 vim.opt.listchars = {
   tab = "→ ",
@@ -19,29 +32,35 @@ vim.opt.listchars = {
   precedes = "«",
   eol = "↴",
 }
--- Sauvegarde automatique à la sortie du mode insert
+
+-- ════════════════════════════════════════
+-- 💾 Sauvegarde automatique en quittant le mode insert
+-- ════════════════════════════════════════
 vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = "*",
   callback = function()
     if vim.bo.modified then
-      vim.cmd("silent! write") -- Évite d'afficher un message
+      vim.cmd("silent! write")
     end
   end,
 })
 
--- Ajouter commande pour changer de repertoire courant, utile pour nvim treesitter
+-- ════════════════════════════════════════
+-- 📁 Commande perso : :Here pour changer vers le répertoire du fichier actif
+-- ════════════════════════════════════════
 vim.api.nvim_create_user_command("Here", function()
   vim.cmd("cd %:p:h")
-  print("Répertoire changé vers : " .. vim.fn.getcwd())
+  print("📁 Répertoire changé vers : " .. vim.fn.getcwd())
 end, {})
 
--- Définir un groupe de couleurs pour simuler une bordure active
+-- ════════════════════════════════════════
+-- 🪄 Mise en valeur de la fenêtre active (fond discret)
+-- ════════════════════════════════════════
 vim.cmd [[
   highlight ActiveWindow   guibg=#1e1e2e
   highlight InactiveWindow guibg=#11111b
 ]]
 
--- Appliquer ces styles aux fenêtres
 vim.api.nvim_create_autocmd("WinEnter", {
   callback = function()
     vim.wo.winhighlight = "Normal:ActiveWindow"

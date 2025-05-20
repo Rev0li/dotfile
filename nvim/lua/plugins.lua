@@ -7,14 +7,23 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 
-    -- Themes color
+-- ════════════════════════════════════════
+-- 🎨 Thèmes / ColorSchemes
+-- ════════════════════════════════════════
     { "folke/tokyonight.nvim" },
     { "catppuccin/nvim", name = "catppuccin" },
     { "EdenEast/nightfox.nvim" },
     { "rose-pine/neovim", name = "rose-pine" },
     { "morhetz/gruvbox" },
+
+-- ════════════════════════════════════════
+-- 🗂️ File Explorer
+-- ════════════════════════════════════════
     { "kyazdani42/nvim-tree.lua" },
 
+-- ════════════════════════════════════════
+-- ⚙️ LSP & Mason
+-- ════════════════════════════════════════
     {
         "williamboman/mason.nvim",
         config = function() require("mason").setup() end
@@ -31,8 +40,14 @@ require("lazy").setup({
     },
     { "neovim/nvim-lspconfig" },
 
+-- ════════════════════════════════════════
+-- 🌳 Treesitter (highlight + indentation)
+-- ════════════════════════════════════════
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 
+-- ════════════════════════════════════════
+-- 📏 Indentation visuelle
+-- ════════════════════════════════════════
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
@@ -49,7 +64,10 @@ require("lazy").setup({
             },
         },
     },
-    -- Auto-completion via nvim-cmp
+
+-- ════════════════════════════════════════
+-- 🤖 Autocomplétion (nvim-cmp)
+-- ════════════════════════════════════════
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -80,12 +98,16 @@ require("lazy").setup({
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
                 }, {
-                        { name = 'buffer' },
-                        { name = 'path' },
-                    })
+                    { name = 'buffer' },
+                    { name = 'path' },
+                })
             })
         end
     },
+
+-- ════════════════════════════════════════
+-- 🔍 Fuzzy Finder (Telescope)
+-- ════════════════════════════════════════
     {
         "nvim-telescope/telescope.nvim",
         tag = '0.1.8',
@@ -94,7 +116,10 @@ require("lazy").setup({
             require("telescope").setup({})
         end
     },
-    -- Custom Bar d'etat Neovim
+
+-- ════════════════════════════════════════
+-- 📊 Barre d'état (Lualine)
+-- ════════════════════════════════════════
     {
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -124,26 +149,64 @@ require("lazy").setup({
                 },
             })
         end
-
     },
+
+-- ════════════════════════════════════════
+-- 🔄 Autopairs (parenthèses, crochets, etc.)
+-- ════════════════════════════════════════
     {
         "windwp/nvim-autopairs",
         config = function()
             require("nvim-autopairs").setup({})
         end
     },
+
+-- ════════════════════════════════════════
+-- ⌨️ Affichage des raccourcis (Which-key)
+-- ════════════════════════════════════════
     {
         "folke/which-key.nvim",
         config = function()
             require("which-key").setup({})
         end
     },
-    -- 🚀 Dashboard au démarrage
+
+-- ════════════════════════════════════════
+-- 🚀 Dashboard d'accueil (Alpha)
+-- ════════════════════════════════════════
     {
         "goolord/alpha-nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             require("dashboard")
         end
+    },
+
+-- ════════════════════════════════════════
+-- 💬 Fenêtres flottantes UI (Dressing)
+-- ════════════════════════════════════════
+    {
+        "stevearc/dressing.nvim",
+        event = "VeryLazy",
+        opts = {
+            input = {
+                enabled = true,
+                border = "rounded",
+                win_options = {
+                    winblend = 0,
+                },
+            },
+            select = {
+                enabled = true,
+                backend = { "telescope", "builtin" },
+                trim_prompt = true,
+                builtin = {
+                    border = "rounded",
+                    winblend = 10,
+                },
+            },
+        }
     }
+
 })
+

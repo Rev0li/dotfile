@@ -1,14 +1,23 @@
+-- ════════════════════════════════════════
+-- 🔌 Chargement de LSPConfig et des capacités LSP
+-- ════════════════════════════════════════
 local lspconfig = require("lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
--- Handlers globaux sauf clangd
+-- ════════════════════════════════════════
+-- 🧠 Configuration générique des LSP (sauf clangd)
+-- ════════════════════════════════════════
 local servers = { "pyright", "lua_ls" }
 
 for _, server in ipairs(servers) do
-  lspconfig[server].setup({ capabilities = capabilities })
+  lspconfig[server].setup({
+    capabilities = capabilities,
+  })
 end
 
--- clangd avec config custom
+-- ════════════════════════════════════════
+-- ⚙️ Configuration personnalisée pour clangd (C/C++)
+-- ════════════════════════════════════════
 lspconfig.clangd.setup({
   capabilities = capabilities,
   cmd = { "clangd", "--compile-commands-dir=.", "--header-insertion=never" },
@@ -16,14 +25,22 @@ lspconfig.clangd.setup({
   root_dir = lspconfig.util.root_pattern(".git", ".clangd", "Makefile"),
 })
 
--- LuaLS spécifique
+-- ════════════════════════════════════════
+-- 🌀 Configuration spécifique à lua_ls (pour Neovim)
+-- ════════════════════════════════════════
 lspconfig.lua_ls.setup({
   capabilities = capabilities,
   settings = {
     Lua = {
-      runtime = { version = "LuaJIT" },
-      diagnostics = { globals = { "vim" } },
-      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+      runtime = {
+        version = "LuaJIT"
+      },
+      diagnostics = {
+        globals = { "vim" }
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true)
+      },
     },
   },
 })

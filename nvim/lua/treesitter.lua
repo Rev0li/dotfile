@@ -1,11 +1,33 @@
-require'nvim-treesitter.configs'.setup {
+-- ════════════════════════════════════════
+-- 🌳 Configuration de nvim-treesitter
+-- ════════════════════════════════════════
+require('nvim-treesitter.configs').setup {
+
+  -- ════════════════════════════════════════
+  -- 📦 Langages à installer automatiquement
+  -- ════════════════════════════════════════
   ensure_installed = { "lua", "python", "javascript", "c", "cpp" },
-  sync_install = false,
-  auto_install = true,
-  ignore_install = {},
+
+  -- ════════════════════════════════════════
+  -- 🔄 Options d'installation
+  -- ════════════════════════════════════════
+  sync_install = false,      -- Pas d'installation synchrone (⚠️ peut être lent sinon)
+  auto_install = true,       -- Installer automatiquement les parsers manquants
+  ignore_install = {},       -- Langages à ignorer à l'installation
+
+  -- ════════════════════════════════════════
+  -- ✨ Surlignage syntaxique
+  -- ════════════════════════════════════════
   highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
+    enable = true,                             -- Active le surlignage syntaxique Treesitter
+    additional_vim_regex_highlighting = false, -- Pas besoin de l'ancien moteur en plus
   },
-  indent = { enable = true },
+
+  -- ════════════════════════════════════════
+  -- 📏 Indentation intelligente
+  -- ════════════════════════════════════════
+  indent = {
+    enable = true                              -- Active l’indentation contextuelle Treesitter
+  },
 }
+
