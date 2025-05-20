@@ -32,13 +32,14 @@ dotfiles/
 ## 🚀 Aperçu visuel
 
 📸 **Page d'accueil Neovim (Dashboard personnalisé)**  
-👉 *[]*
+![Dashboard](https://imgur.com/hmZqQct.png)
 
-📸 **Explorateur NvimTree avec icônes stylisées**  
-👉 *[https://imgur.com/a/nnt7uHV]*
+📁 **Explorateur NvimTree avec icônes stylisées**  
+![NvimTree](https://imgur.com/DyqP4kV.png)
 
-📸 **Sélecteur de thème interactif**  
-👉 *[]*
+🎨 **Sélecteur de thème interactif (popup)**  
+![Theme Selector](https://imgur.com/84xaThl.png)
+
 
 ---
 
