@@ -1,38 +1,40 @@
--- keymaps.lua: Raccourcis personnalisés
-vim.g.mapleader = " " -- Leader key
+-- keymaps.lua
+vim.g.mapleader = " "
 
--- Toggle NvimTree
-vim.api.nvim_set_keymap('n', '<leader>d', ':NvimTreeToggle<CR>', { noremap = true, silent = true, desc = 'TreeToggle' })
+-- Tree toggle
+vim.api.nvim_set_keymap('n', '<leader>d', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 
--- Add groups "File/Search" & "Navigation"
-vim.keymap.set('n', '<leader>f', '<Nop>', { desc = 'File/Search' }) -- Groupe "f"
-vim.keymap.set('n', '<leader>n', '<Nop>', { desc = 'NavTab' })      -- Groupe "n"
+-- Tabs
+vim.api.nvim_set_keymap('n', '<leader>nn', ':tabnew<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>nc', ':tabclose<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Right>', ':tabnext<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Left>', ':tabprev<CR>', { noremap = true, silent = true })
 
--- Shortcut tab
-vim.api.nvim_set_keymap('n', '<leader>nn', ':tabnew<CR>', { noremap = true, silent = true, desc = 'NewTab' })
-vim.api.nvim_set_keymap('n', '<leader>nc', ':tabclose<CR>', { noremap = true, silent = true, desc = 'CloseTab' })
--- Change tab with Ctrl + right / left
-vim.api.nvim_set_keymap('n', '<C-Right>', ':tabnext<CR>', { noremap = true, silent = true, desc = 'Next Tab' })
-vim.api.nvim_set_keymap('n', '<C-Left>', ':tabprev<CR>', { noremap = true, silent = true, desc = 'Previous Tab' })
-
--- Shortcut Telescope
-local status, builtin = pcall(require, "telescope.builtin")
-vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })
-
-
--- Floaterm
-vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>:FloatermHide<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>t', ':FloatermToggle<CR>',
-	{ noremap = true, silent = true, desc = 'Open Terminal' })
-
-
--- iLoad file -> stdheader.vim
-local header_path = "/usr/share/vim/vim85/plugin/stdheader.vim"
-if vim.loop.fs_stat(header_path) then
-	vim.cmd("source " .. header_path)
-else
-	print("⚠️ stdheader.vim introuvable, pas de header 42 !")
+-- Telescope
+local ok, builtin = pcall(require, "telescope.builtin")
+if ok then
+    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })
 end
 
--- Header school 42
-vim.api.nvim_set_keymap('n', '<leader>h', ':Stdheader<CR>', { noremap = true, silent = true, desc = 'Add 42 Header' })
+-- Terminal (horizontal en bas)
+vim.api.nvim_set_keymap('n', '<leader>t', ':belowright split | terminal<CR>', { noremap = true, silent = true })
+
+-- Quitter le terminal en mode normal avec <Esc>
+vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
+
+-- Toggle liste des caractères invisibles
+vim.keymap.set("n", "<leader>l", function()
+  vim.opt.list = not vim.opt.list:get()
+end, { desc = "Toggle list mode" })
+
+-- Navigation entre fenêtres avec Ctrl + flèches
+vim.keymap.set('n', '<C-Left>',  '<C-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Down>',  '<C-w>j', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Up>',    '<C-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true })
+
+vim.keymap.set('n', '<A-Up>', ':resize +2<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-Down>', ':resize -2<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', { noremap = true, silent = true })
+

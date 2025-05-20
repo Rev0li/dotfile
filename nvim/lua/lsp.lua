@@ -1,72 +1,29 @@
--- -- lsp.lua
--- local lspconfig = require("lspconfig")
--- local mason_lspconfig = require("mason-lspconfig")
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
---
--- -- Configure Mason pour installer et configurer les serveurs
--- mason_lspconfig.setup({
---     ensure_installed = { "clangd", "pyright", "lua_ls" },
---     automatic_installation = true,
--- })
---
--- -- Setup automatique des serveurs LSP avec capabilities
--- mason_lspconfig.setup_handlers({
---     function(server_name)
---         lspconfig[server_name].setup({
---             capabilities = capabilities,
---         })
---     end,
--- })
---
---
--- lspconfig.lua_ls.setup({
---     capabilities = capabilities,
---     settings = {
---         Lua = {
---             runtime = { version = "LuaJIT" },
---             diagnostics = { globals = { "vim" } },
---             workspace = { library = vim.api.nvim_get_runtime_file("", true) },
---         },
---     },
--- })
 local lspconfig = require("lspconfig")
-local mason_lspconfig = require("mason-lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
--- Configure clangd avec include
+-- Handlers globaux sauf clangd
+local servers = { "pyright", "lua_ls" }
+
+for _, server in ipairs(servers) do
+  lspconfig[server].setup({ capabilities = capabilities })
+end
+
+-- clangd avec config custom
 lspconfig.clangd.setup({
-    capabilities = capabilities,
-    cmd = { "clangd", "--compile-commands-dir=.", "--header-insertion=never" },
-    args = { "-Iinclude" },
-	root_dir = lspconfig.util.root_pattern(".git", ".clangd", "Makefile"),
-
+  capabilities = capabilities,
+  cmd = { "clangd", "--compile-commands-dir=.", "--header-insertion=never" },
+  args = { "-Iinclude" },
+  root_dir = lspconfig.util.root_pattern(".git", ".clangd", "Makefile"),
 })
 
--- Mason configuration
-mason_lspconfig.setup({
-    ensure_installed = { "clangd", "pyright", "lua_ls" },
-    automatic_installation = true,
-})
-
-mason_lspconfig.setup_handlers({
-    function(server_name)
-        if server_name ~= "clangd" then
-            lspconfig[server_name].setup({
-                capabilities = capabilities,
-            })
-        end
-    end,
-})
-
--- Lua LS
+-- LuaLS spécifique
 lspconfig.lua_ls.setup({
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            runtime = { version = "LuaJIT" },
-            diagnostics = { globals = { "vim" } },
-            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-        },
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      diagnostics = { globals = { "vim" } },
+      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
     },
+  },
 })
-

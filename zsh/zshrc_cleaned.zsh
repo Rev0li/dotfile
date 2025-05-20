@@ -38,11 +38,15 @@ alias shortcuts="alias | sed -e 's/alias //g' | column -t -s '='"
 alias shortcut="grep '^alias ' ~/.zshrc | sed -e 's/^alias //' | column -t -s '='"
 
 # Neovim local en version portable
-alias nv="$DOTFILES_DIR/nvim/nvim-linux64/bin/nvim"
+alias vi="$DOTFILES_DIR/nvim/nvim-linux64/bin/nvim"
 
 # Valgrind perso
 alias vald="~/Documents/valgrind_breaker"
-alias valfull="valgrind --leak-check=full --show-leak-kinds=definite"
+alias valfull='valgrind \
+  --leak-check=full \
+  --show-leak-kinds=all \
+  --track-origins=yes \
+  --verbose
 
 ############################
 # 🔍 Outils externes
