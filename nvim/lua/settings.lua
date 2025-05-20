@@ -73,3 +73,12 @@ vim.api.nvim_create_autocmd("WinLeave", {
   end,
 })
 
+-- Forcer une forme de curseur différente selon les modes
+vim.opt.guicursor = {
+  "n-v-c:block",       -- Normal, Visual, Command: block
+  "i-ci-ve:ver25",     -- Insert, Insert Command-line: vertical bar
+  "r-cr:hor20",        -- Replace modes: horizontal bar
+  "o:hor50",           -- Operator-pending mode
+  "a:blinkon100",      -- blinking in all modes
+}
+
