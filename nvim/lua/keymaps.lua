@@ -51,7 +51,7 @@ vim.keymap.set("n", "<leader>t", function()
     vim.cmd("belowright split")
     vim.api.nvim_win_set_buf(0, terminal_bufnr)
   end
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true, desc = "Terminal Toggle" })
 
 -- ════════════════════════════════════════
 -- 🕵️‍♂️ Toggle caractères invisibles

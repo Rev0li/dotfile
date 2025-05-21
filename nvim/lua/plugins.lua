@@ -206,7 +206,23 @@ require("lazy").setup({
                 },
             },
         }
-    }
-
+    },
+-- ════════════════════════════════════════
+--  HEADER 42 
+-- ════════════════════════════════════════
+	{
+		"Diogo-ss/42-header.nvim",
+		cmd = { "Stdheader" },
+		keys = { "<F1>" },
+		opts = {
+			default_map = true, -- Active le mapping par défaut (F1)
+			auto_update = true, -- Met à jour automatiquement le header lors de la sauvegarde
+			user = "okientzl", -- Remplace par ton login 42
+			mail = "okientzl@student.42lyon.fr", -- Remplace par ton email 42
+		},
+		config = function(_, opts)
+			require("42header").setup(opts)
+		end,
+	}
 })
 
