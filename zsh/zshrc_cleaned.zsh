@@ -28,6 +28,11 @@ source $DOTFILES_DIR/zsh/brightness.sh
 # Rediriger les configs XDG vers les dotfiles
 export XDG_CONFIG_HOME="$DOTFILES_DIR"
 
+# Remplacer la commande cd par une fonction personnalisée
+cd() {
+  clear
+  builtin cd "$@" && ls -a
+}
 ############################
 # 🧠 Alias pratiques
 ############################

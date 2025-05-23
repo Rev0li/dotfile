@@ -74,5 +74,10 @@ vim.keymap.set('n', '<C-Right>', '<C-w>l', { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Up>',    ':resize +2<CR>',           { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Down>',  ':resize -2<CR>',           { noremap = true, silent = true })
 vim.keymap.set('n', '<A-Left>',  ':vertical resize -2<CR>',  { noremap = true, silent = true })
-vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>',  { noremap = true, silent = true })
+
+-- ════════════════════════════════════════
+-- Naviguation entre les tabs
+-- ════════════════════════════════════════im.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>',  { noremap = true, silent = true })
+vim.keymap.set('n', '<C-PageDown>', ':tabnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-PageUp>', ':tabprevious<CR>', { noremap = true, silent = true })
 
