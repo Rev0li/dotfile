@@ -26,6 +26,35 @@ lspconfig.clangd.setup({
 })
 
 -- ════════════════════════════════════════
+--   Configuration spécifique pour Pyright (recommandé)
+-- ════════════════════════════════════════
+lspconfig.pyright.setup({
+    capabilities = capabilities,
+    settings = {
+        python = {
+            analysis = {
+                -- Cherche les imports depuis la racine du projet
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                -- Ajout du dossier src comme racine des imports
+                extraPaths = { "./src" },
+            }
+        }
+    },
+    -- Pattern pour trouver la racine du projet
+    root_dir = lspconfig.util.root_pattern(
+        "pyproject.toml",
+        "setup.py",
+        "setup.cfg",
+        "requirements.txt",
+        "Pipfile",
+        ".git",
+        -- Ajout pour votre cas spécifique
+        "src"
+    ),
+})
+
+-- ════════════════════════════════════════
 -- 🌀 Configuration spécifique à lua_ls (pour Neovim)
 -- ════════════════════════════════════════
 lspconfig.lua_ls.setup({
