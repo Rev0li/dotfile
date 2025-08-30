@@ -207,6 +207,27 @@ require("lazy").setup({
             },
         }
     },
+	
+-- ════════════════════════════════════════
+-- 🔀 Git Conflict Resolution
+-- ════════════════════════════════════════
+{
+    "akinsho/git-conflict.nvim",
+    version = "*",
+    config = function()
+        require('git-conflict').setup({
+            default_mappings = true,        -- Active les raccourcis par défaut
+            default_commands = true,        -- Active les commandes par défaut
+            disable_diagnostics = false,    -- Garde les diagnostics activés
+            list_opener = 'copen',          -- Commande pour ouvrir la quickfix list
+            highlights = {
+                incoming = 'DiffAdd',
+                current = 'DiffText',
+            }
+        })
+    end
+},
+
 -- ════════════════════════════════════════
 --  HEADER 42 
 -- ════════════════════════════════════════

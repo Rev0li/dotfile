@@ -81,3 +81,49 @@ vim.keymap.set('n', '<A-Left>',  ':vertical resize -2<CR>',  { noremap = true, s
 vim.keymap.set('n', '<C-PageDown>', ':tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-PageUp>', ':tabprevious<CR>', { noremap = true, silent = true })
 
+-- ════════════════════════════════════════
+-- 🔀 Git Conflict - Résolution des conflits Git
+-- À ajouter dans votre fichier nvim/lua/keymaps.lua
+-- ════════════════════════════════════════
+
+-- ════════════════════════════════════════
+-- 🎯 Choix de version lors des conflits
+-- ════════════════════════════════════════
+vim.keymap.set('n', '<leader>gco', '<cmd>GitConflictChooseOurs<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: Choose Ours (current/HEAD)' })
+
+vim.keymap.set('n', '<leader>gct', '<cmd>GitConflictChooseTheirs<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: Choose Theirs (incoming/branch)' })
+
+vim.keymap.set('n', '<leader>gcb', '<cmd>GitConflictChooseBoth<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: Choose Both versions' })
+
+vim.keymap.set('n', '<leader>gcn', '<cmd>GitConflictChooseNone<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: Choose None (delete both)' })
+
+-- ════════════════════════════════════════
+-- 🧭 Navigation entre les conflits
+-- ════════════════════════════════════════
+vim.keymap.set('n', '<leader>gcj', '<cmd>GitConflictNextConflict<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: Next conflict' })
+
+vim.keymap.set('n', '<leader>gck', '<cmd>GitConflictPrevConflict<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: Previous conflict' })
+
+-- ════════════════════════════════════════
+-- 📋 Liste des conflits
+-- ════════════════════════════════════════
+vim.keymap.set('n', '<leader>gcl', '<cmd>GitConflictListQf<CR>', 
+    { noremap = true, silent = true, desc = 'Git Conflict: List all conflicts in quickfix' })
+
+-- ════════════════════════════════════════
+-- 🔄 Raccourcis alternatifs (plus courts)
+-- ════════════════════════════════════════
+-- Si vous préférez des raccourcis plus courts, décommentez ces lignes :
+
+-- vim.keymap.set('n', '<leader>go', '<cmd>GitConflictChooseOurs<CR>', { desc = 'Conflict: Ours' })
+-- vim.keymap.set('n', '<leader>gt', '<cmd>GitConflictChooseTheirs<CR>', { desc = 'Conflict: Theirs' })
+-- vim.keymap.set('n', '<leader>gb', '<cmd>GitConflictChooseBoth<CR>', { desc = 'Conflict: Both' })
+-- vim.keymap.set('n', '<leader>gn', '<cmd>GitConflictChooseNone<CR>', { desc = 'Conflict: None' })
+-- vim.keymap.set('n', ']c', '<cmd>GitConflictNextConflict<CR>', { desc = 'Next conflict' })
+-- vim.keymap.set('n', '[c', '<cmd>GitConflictPrevConflict<CR>', { desc = 'Prev conflict' })
