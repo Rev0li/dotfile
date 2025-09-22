@@ -1,6 +1,5 @@
 " Vim syntax file
 " Language:     Nvim :checkhealth buffer
-" Last Change:  2022 Nov 10
 
 if exists("b:current_syntax")
   finish
@@ -14,7 +13,9 @@ syn case match
 syn keyword DiagnosticError ERROR[:]
 syn keyword DiagnosticWarn WARNING[:]
 syn keyword DiagnosticOk OK[:]
-syn match helpSectionDelim "^======*\n.*$"
-syn match healthHeadingChar "=" conceal cchar=─ contained containedin=helpSectionDelim
+" Note: hs=e starts higlighting on the title line (instead of the "===" line).
+syn match healthSectionDelim /^======*\n.*$/hs=e
+highlight default healthSectionDelim gui=reverse cterm=reverse
+syn match healthHeadingChar "=" conceal cchar= contained containedin=healthSectionDelim
 
 let b:current_syntax = "checkhealth"

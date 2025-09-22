@@ -1,6 +1,6 @@
 local G = vim.lsp._snippet_grammar
-local snippet_group = vim.api.nvim_create_augroup('vim/snippet', {})
-local snippet_ns = vim.api.nvim_create_namespace('vim/snippet')
+local snippet_group = vim.api.nvim_create_augroup('nvim.snippet', {})
+local snippet_ns = vim.api.nvim_create_namespace('nvim.snippet')
 local hl_group = 'SnippetTabstop'
 
 --- Returns the 0-based cursor position.
@@ -119,7 +119,7 @@ local Tabstop = {}
 function Tabstop.new(index, bufnr, range, choices)
   local extmark_id = vim.api.nvim_buf_set_extmark(bufnr, snippet_ns, range[1], range[2], {
     right_gravity = true,
-    end_right_gravity = true,
+    end_right_gravity = false,
     end_line = range[3],
     end_col = range[4],
     hl_group = hl_group,
@@ -170,7 +170,7 @@ function Tabstop:set_right_gravity(right_gravity)
   local range = self:get_range()
   self.extmark_id = vim.api.nvim_buf_set_extmark(self.bufnr, snippet_ns, range[1], range[2], {
     right_gravity = right_gravity,
-    end_right_gravity = true,
+    end_right_gravity = not right_gravity,
     end_line = range[3],
     end_col = range[4],
     hl_group = hl_group,
@@ -182,6 +182,8 @@ end
 --- @field extmark_id integer
 --- @field tabstops table<integer, vim.snippet.Tabstop[]>
 --- @field current_tabstop vim.snippet.Tabstop
+--- @field tab_keymaps { i: table<string, any>?, s: table<string, any>? }
+--- @field shift_tab_keymaps { i: table<string, any>?, s: table<string, any>? }
 local Session = {}
 
 --- Creates a new snippet session in the current buffer.
@@ -197,6 +199,8 @@ function Session.new(bufnr, snippet_extmark, tabstop_data)
     extmark_id = snippet_extmark,
     tabstops = {},
     current_tabstop = Tabstop.new(0, bufnr, { 0, 0, 0, 0 }),
+    tab_keymaps = { i = nil, s = nil },
+    shift_tab_keymaps = { i = nil, s = nil },
   }, { __index = Session })
 
   -- Create the tabstops.
@@ -253,10 +257,21 @@ local M = { session = nil }
 local function display_choices(tabstop)
   assert(tabstop.choices, 'Tabstop has no choices')
 
+  local text = tabstop:get_text()
+  local found_text = false
+
   local start_col = tabstop:get_range()[2] + 1
   local matches = {} --- @type table[]
   for _, choice in ipairs(tabstop.choices) do
-    matches[#matches + 1] = { word = choice }
+    if choice ~= text then
+      matches[#matches + 1] = { word = choice }
+    else
+      found_text = true
+    end
+  end
+
+  if found_text then
+    table.insert(matches, 1, text)
   end
 
   vim.defer_fn(function()
@@ -272,17 +287,6 @@ local function select_tabstop(tabstop)
   local function feedkeys(keys)
     keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
     vim.api.nvim_feedkeys(keys, 'n', true)
-  end
-
-  --- NOTE: We don't use `vim.api.nvim_win_set_cursor` here because it causes the cursor to end
-  --- at the end of the selection instead of the start.
-  ---
-  --- @param row integer
-  --- @param col integer
-  local function move_cursor_to(row, col)
-    local line = vim.fn.getline(row) --[[ @as string ]]
-    col = math.max(vim.fn.strchars(line:sub(1, col)) - 1, 0)
-    feedkeys(string.format('%sG0%s', row, string.rep('<Right>', col)))
   end
 
   local range = tabstop:get_range()
@@ -305,17 +309,21 @@ local function select_tabstop(tabstop)
       vim.cmd.startinsert({ bang = range[4] >= #vim.api.nvim_get_current_line() })
     end
     if tabstop.choices then
+      vim.fn.cursor(range[3] + 1, range[4] + 1)
       display_choices(tabstop)
     end
   else
     -- Else, select the tabstop's text.
-    if mode ~= 'n' then
-      feedkeys('<Esc>')
-    end
-    move_cursor_to(range[1] + 1, range[2] + 1)
-    feedkeys('v')
-    move_cursor_to(range[3] + 1, range[4])
-    feedkeys('o<c-g><c-r>_')
+    -- Need this exact order so cannot mix regular API calls with feedkeys, which
+    -- are not executed immediately. Use <Cmd> to set the cursor position.
+    local keys = {
+      mode ~= 'n' and '<Esc>' or '',
+      ('<Cmd>call cursor(%s,%s)<CR>'):format(range[1] + 1, range[2] + 1),
+      'v',
+      ('<Cmd>call cursor(%s,%s)<CR>'):format(range[3] + 1, range[4]),
+      'o<c-g><c-r>_',
+    }
+    feedkeys(table.concat(keys))
   end
 end
 
@@ -416,6 +424,7 @@ end
 function M.expand(input)
   local snippet = G.parse(input)
   local snippet_text = {}
+  ---@type string
   local base_indent = vim.api.nvim_get_current_line():match('^%s*') or ''
 
   -- Get the placeholders we should use for each tabstop index.
@@ -450,12 +459,6 @@ function M.expand(input)
   ---
   --- @param text string|string[]
   local function append_to_snippet(text)
-    local snippet_lines = text_to_lines(snippet_text)
-    -- Get the base indentation based on the current line and the last line of the snippet.
-    if #snippet_lines > 0 then
-      base_indent = base_indent .. (snippet_lines[#snippet_lines]:match('(^%s+)%S') or '') --- @type string
-    end
-
     local shiftwidth = vim.fn.shiftwidth()
     local curbuf = vim.api.nvim_get_current_buf()
     local expandtab = vim.bo[curbuf].expandtab
@@ -543,16 +546,16 @@ end
 
 --- Jumps to the next (or previous) placeholder in the current snippet, if possible.
 ---
---- For example, map `<Tab>` to jump while a snippet is active:
+--- By default `<Tab>` is setup to jump if a snippet is active. The default mapping looks like:
 ---
 --- ```lua
 --- vim.keymap.set({ 'i', 's' }, '<Tab>', function()
 ---    if vim.snippet.active({ direction = 1 }) then
----      return '<cmd>lua vim.snippet.jump(1)<cr>'
+---      return '<Cmd>lua vim.snippet.jump(1)<CR>'
 ---    else
 ---      return '<Tab>'
 ---    end
----  end, { expr = true })
+---  end, { descr = '...', expr = true, silent = true })
 --- ```
 ---
 --- @param direction (vim.snippet.Direction) Navigation direction. -1 for previous, 1 for next.
@@ -594,18 +597,6 @@ end
 
 --- Returns `true` if there's an active snippet in the current buffer,
 --- applying the given filter if provided.
----
---- You can use this function to navigate a snippet as follows:
----
---- ```lua
---- vim.keymap.set({ 'i', 's' }, '<Tab>', function()
----    if vim.snippet.active({ direction = 1 }) then
----      return '<cmd>lua vim.snippet.jump(1)<cr>'
----    else
----      return '<Tab>'
----    end
----  end, { expr = true })
---- ```
 ---
 --- @param filter? vim.snippet.ActiveFilter Filter to constrain the search with:
 --- - `direction` (vim.snippet.Direction): Navigation direction. Will return `true` if the snippet

@@ -1,75 +1,68 @@
--- ════════════════════════════════════════
--- 🔌 Chargement de LSPConfig et des capacités LSP
--- ════════════════════════════════════════
-local lspconfig = require("lspconfig")
+-- -- ════════════════════════════════════════
+-- -- 🔌 Chargement de LSPConfig et des capacités LSP
+-- -- ════════════════════════════════════════
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
--- ════════════════════════════════════════
--- 🧠 Configuration générique des LSP (sauf clangd)
--- ════════════════════════════════════════
+-- -- ════════════════════════════════════════
+-- -- 🧠 Configuration générique des LSP (sauf clangd)
+-- -- ════════════════════════════════════════
 local servers = { "pyright", "lua_ls" }
-
 for _, server in ipairs(servers) do
-  lspconfig[server].setup({
+  vim.lsp.config(server, {
     capabilities = capabilities,
   })
 end
 
--- ════════════════════════════════════════
--- ⚙️ Configuration personnalisée pour clangd (C/C++)
--- ════════════════════════════════════════
-lspconfig.clangd.setup({
+-- -- ════════════════════════════════════════
+-- -- ⚙️ Configuration personnalisée pour clangd (C/C++)
+-- -- ════════════════════════════════════════
+vim.lsp.config("clangd", {
   capabilities = capabilities,
   cmd = { "clangd", "--compile-commands-dir=.", "--header-insertion=never" },
   args = { "-Iinclude" },
-  root_dir = lspconfig.util.root_pattern(".git", ".clangd", "Makefile"),
+  root_dir = vim.fs.root(0, { ".git", ".clangd", "Makefile" }),
 })
 
--- ════════════════════════════════════════
---   Configuration spécifique pour Pyright (recommandé)
--- ════════════════════════════════════════
-lspconfig.pyright.setup({
-    capabilities = capabilities,
-    settings = {
-        python = {
-            analysis = {
-                -- Cherche les imports depuis la racine du projet
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                -- Ajout du dossier src comme racine des imports
-                extraPaths = { "./src" },
-            }
-        }
+-- -- ════════════════════════════════════════
+-- --   Configuration spécifique pour Pyright (recommandé)
+-- -- ════════════════════════════════════════
+vim.lsp.config("pyright", {
+  capabilities = capabilities,
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        extraPaths = { "./src" },
+      },
     },
-    -- Pattern pour trouver la racine du projet
-    root_dir = lspconfig.util.root_pattern(
-        "pyproject.toml",
-        "setup.py",
-        "setup.cfg",
-        "requirements.txt",
-        "Pipfile",
-        ".git",
-        -- Ajout pour votre cas spécifique
-        "src"
-    ),
+  },
+  root_dir = vim.fs.root(0, {
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "requirements.txt",
+    "Pipfile",
+    ".git",
+    "src",
+  }),
 })
 
--- ════════════════════════════════════════
--- 🌀 Configuration spécifique à lua_ls (pour Neovim)
--- ════════════════════════════════════════
-lspconfig.lua_ls.setup({
+-- -- ════════════════════════════════════════
+-- -- 🌀 Configuration spécifique à lua_ls (pour Neovim)
+-- -- ════════════════════════════════════════
+vim.lsp.config("lua_ls", {
   capabilities = capabilities,
   settings = {
     Lua = {
-      runtime = {
-        version = "LuaJIT"
-      },
+      runtime = { version = "LuaJIT" },
       diagnostics = {
-        globals = { "vim" }
+        globals = { "vim" },
       },
       workspace = {
-        library = vim.api.nvim_get_runtime_file("", true)
+        library = vim.api.nvim_get_runtime_file("", true),
       },
     },
   },
 })
+
