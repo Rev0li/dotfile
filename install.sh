@@ -88,13 +88,28 @@ else
     print_success "Zsh déjà installé"
 fi
 
-# Installer curl et wget si nécessaire
+# Installer curl, wget, unzip et ripgrep si nécessaire
 for cmd in curl wget unzip; do
     if ! command_exists $cmd; then
         print_info "Installation de $cmd..."
         $INSTALL_CMD $cmd
     fi
 done
+
+# Installer ripgrep (nécessaire pour Telescope live_grep)
+if ! command_exists rg; then
+    print_info "Installation de ripgrep (pour Telescope)..."
+    if [ "$PKG_MANAGER" = "apt" ]; then
+        $INSTALL_CMD ripgrep
+    elif [ "$PKG_MANAGER" = "pacman" ]; then
+        $INSTALL_CMD ripgrep
+    elif [ "$PKG_MANAGER" = "dnf" ]; then
+        $INSTALL_CMD ripgrep
+    fi
+    print_success "Ripgrep installé"
+else
+    print_success "Ripgrep déjà installé"
+fi
 
 # ─────────────────────────────────────────────
 # 🎨 Installation de Oh My Posh
@@ -203,16 +218,16 @@ print_success "Symlink ~/.config/kitty/kitty.conf créé"
 # ⚙️ Configuration finale
 # ─────────────────────────────────────────────
 
-print_header "Configuration finale"
+# print_header "Configuration finale"
 
-# Définir Zsh comme shell par défaut
-if [ "$SHELL" != "$(which zsh)" ]; then
-    print_info "Changement du shell par défaut vers Zsh..."
-    chsh -s "$(which zsh)"
-    print_success "Shell par défaut changé vers Zsh"
-else
-    print_success "Zsh est déjà le shell par défaut"
-fi
+# # Définir Zsh comme shell par défaut
+# if [ "$SHELL" != "$(which zsh)" ]; then
+#     print_info "Changement du shell par défaut vers Zsh..."
+#     chsh -s "$(which zsh)"
+#     print_success "Shell par défaut changé vers Zsh"
+# else
+#     print_success "Zsh est déjà le shell par défaut"
+# fi
 
 # ─────────────────────────────────────────────
 # ✅ Installation terminée

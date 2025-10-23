@@ -123,10 +123,14 @@ Si tu préfères installer manuellement :
 * **Neovim 100% portable** (aucune install système)
 * **Dashboard custom + header ASCII dynamique**
 * **Sélecteur de thème interactif** (popup)
+* **Cheatsheet intégré** (fenêtre flottante avec tous les raccourcis)
+* **Terminal flottant** (80% de l'écran, centré, bordure arrondie)
+* **Telescope** : recherche de fichiers ET texte dans le projet
 * **Explorateur de fichiers (NvimTree) avec icônes**
-* **LSP prêt à l’emploi** (C, Python, Lua)
+* **LSP prêt à l'emploi** (C, Python, Lua)
 * **Autocomplétion intelligente et Treesitter**
 * **Navigation split, tabs, resize, terminal toggle…**
+* **Timeout 1 seconde** pour text objects (ci', ci", etc.)
 * **Sauvegarde automatique à la sortie du mode insert**
 * **Affichage caractères invisibles, indentation claire**
 * **Zsh minimaliste, thèmes, alias pratiques**
@@ -155,6 +159,8 @@ Si tu préfères installer manuellement :
 | ------------------------------ | ------------------- |
 | Ouvrir/fermer l’explorateur    | `<leader>d`         |
 | Trouver un fichier (Telescope) | `<leader>f`         |
+| Rechercher texte dans fichiers | `<leader>g`         |
+| Lister les buffers ouverts     | `<leader>b`         |
 | Fichiers récents               | Depuis le Dashboard |
 
 #### 🪟 Splits & navigation
@@ -166,19 +172,25 @@ Si tu préfères installer manuellement :
 | Naviguer split gauche/droite/haut/bas | `Ctrl+Flèches` |
 | Redimensionner split                  | `Alt+Flèches`  |
 
-#### 🖥️ Terminal intégré
+#### 🖥️ Terminal flottant
 
-| Action              | Raccourci   |
-| ------------------- | ----------- |
-| Toggle terminal     | `<leader>t` |
-| Échap mode terminal | `<Esc>`     |
+| Action                    | Raccourci   |
+| ------------------------- | ----------- |
+| Toggle terminal flottant  | `<leader>t` |
+| Échap mode terminal       | `<Esc>`     |
+| Fermer terminal           | `<leader>t` |
+
+**Note :** Le terminal est flottant, centré, et prend 80% de l'écran.
 
 #### 🗝️ Autres
 
 | Action                       | Raccourci                                          |
 | ---------------------------- | -------------------------------------------------- |
+| Afficher le cheatsheet       | `<leader>k`                                        |
 | Toggle caractères invisibles | `<leader>l`                                        |
 | Changer de thème (popup)     | `t` depuis le dashboard                            |
+
+**Cheatsheet :** Fenêtre flottante avec tous les raccourcis Vim/Neovim (marks, text objects, navigation, etc.)
 
 #### 🏷️ **Header 42**
 
