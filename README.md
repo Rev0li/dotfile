@@ -18,15 +18,28 @@ dotfiles/
 │   │   ├── plugins.lua        # Plugins via Lazy.nvim
 │   │   ├── settings.lua       # Options d'affichage & système
 │   │   └── treesitter.lua     # Syntax highlighting performant
-│   ├── nvim-linux64/          # Binaire Neovim autonome
+│   ├── nvim-linux64/          # Binaire Neovim (téléchargé par install.sh)
 │   ├── .theme                 # Thème sélectionné dernièrement
-│   ├── init.lua               # Point d'entrée principal
-│   └── lazy-lock.json
+│   └── init.lua               # Point d'entrée principal
 ├── zsh/
-│   └── zshrc_cleaned.zsh      # Config Zsh propre et portable
+│   ├── custom_zshrc.zsh       # Point d'entrée principal Zsh
+│   ├── aliases.zsh            # Alias et raccourcis
+│   ├── exports.zsh            # Variables d'environnement
+│   ├── functions.zsh          # Fonctions utilitaires
+│   ├── options.zsh            # Options Zsh
+│   ├── plugins.zsh            # Gestion des plugins
+│   ├── styles.zsh             # Styles d'affichage
+│   └── brightness.sh          # Script de gestion luminosité
 ├── kitty/
 │   ├── kitty.conf             # Config Kitty complète
-│   └── session.conf           # Layout de démarrage personnalisé
+│   ├── session.conf           # Layout de démarrage personnalisé
+│   └── kitty-linux64/         # Binaire Kitty (téléchargé par install.sh)
+├── OhMyPosh/
+│   ├── hul10.omp.json         # Thème Oh My Posh personnalisé
+│   └── install.sh             # Script d'installation Oh My Posh
+├── .gitignore                 # Fichiers à ignorer
+├── install.sh                 # 🚀 Script d'installation automatique
+├── minimum_install.sh         # Installation minimale (fonts + Oh My Posh)
 └── README.md
 ```
 
@@ -47,44 +60,61 @@ dotfiles/
 
 ## 🛠️ Installation rapide
 
-1. **Clone le dépôt :**
+### **Installation automatique (recommandée)**
 
+```sh
+# Clone le dépôt
+git clone https://github.com/Rev0li/dotfile.git ~/dotfiles
+
+# Lance le script d'installation
+cd ~/dotfiles
+./install.sh
+```
+
+Le script va automatiquement :
+- ✅ Installer Zsh, curl, wget, unzip
+- ✅ Télécharger et installer Oh My Posh
+- ✅ Installer JetBrains Mono Nerd Font
+- ✅ Télécharger Neovim et Kitty (binaires portables)
+- ✅ Créer les symlinks nécessaires
+- ✅ Définir Zsh comme shell par défaut
+
+### **Installation manuelle**
+
+Si tu préfères installer manuellement :
+
+1. **Clone le dépôt :**
    ```sh
    git clone https://github.com/Rev0li/dotfile.git ~/dotfiles
    ```
 
-2. **Installe Zsh (si besoin) :**
-
+2. **Installe les dépendances :**
    ```sh
-   sudo apt install zsh     # Debian/Ubuntu
-   sudo pacman -S zsh       # Arch/Manjaro
-   chsh -s $(which zsh)     # Passe Zsh en shell par défaut
+   # Debian/Ubuntu
+   sudo apt install zsh curl wget unzip
+
+   # Arch/Manjaro
+   sudo pacman -S zsh curl wget unzip
    ```
 
-3. **Active la config Zsh :**
-
+3. **Installe les Nerd Fonts :**
    ```sh
-   ln -sf ~/dotfiles/zsh/zshrc_cleaned.zsh ~/.zshrc
-   source ~/.zshrc
+   cd ~/dotfiles
+   ./minimum_install.sh
    ```
 
-4. **Lance Neovim avec le binaire fourni :**
-
+4. **Crée les symlinks :**
    ```sh
-   ~/dotfiles/nvim/nvim-linux64/bin/nvim
+   ln -sf ~/dotfiles/zsh/custom_zshrc.zsh ~/.zshrc
+   ln -sf ~/dotfiles/nvim ~/.config/nvim
+   mkdir -p ~/.config/kitty
+   ln -sf ~/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
    ```
 
-   *(ou crée un alias dans ton `.zshrc` : `alias nv="~/dotfiles/nvim/nvim-linux64/bin/nvim"`)*
-
-5. **Kitty (terminal) :**
-
-   * Mets le binaire ou le dossier dans `~/dotfiles/kitty/`
-   * Lance avec un alias :
-
-     ```sh
-     alias kitty="~/dotfiles/kitty/kitty-linux64/bin/kitty --session ~/dotfiles/kitty/session.conf"
-     ```
-   * (Optionnel) Ajoute `export DOTFILES_DIR=~/dotfiles` dans ton `.zshrc` pour les chemins dynamiques.
+5. **Change le shell par défaut :**
+   ```sh
+   chsh -s $(which zsh)
+   ```
 
 ---
 
