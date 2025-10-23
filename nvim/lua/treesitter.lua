@@ -6,7 +6,20 @@ require('nvim-treesitter.configs').setup {
   -- ════════════════════════════════════════
   -- 📦 Langages à installer automatiquement
   -- ════════════════════════════════════════
-  ensure_installed = { "lua", "python", "javascript", "c", "cpp" },
+  ensure_installed = {
+    "lua",
+    "python",
+    "javascript",
+    "typescript",
+    "tsx",
+    "c",
+    "cpp",
+    "json",
+    "yaml",
+    "markdown",
+    "markdown_inline",
+    "bash",
+  },
 
   -- ════════════════════════════════════════
   -- 🔄 Options d'installation

@@ -3,13 +3,7 @@
   "palette": {
     "white": "#f7f7f7",
     "black": "#111111",
-    "dracublue": "#4c61a2",
-    "blue_soft": "#6ba4d4",  
-    "blue_bright": "#7aa2f7",
-    "cyan_soft": "#73daca",  
-    "green_soft": "#9ece6a", 
-    "violet_soft": "#bb9af7",
-    "white_blue": "#c0caf5"  
+    "dracublue": "#4c61a2"
   },
   "blocks": [
     {
@@ -17,20 +11,27 @@
       "alignment": "left",
       "newline": true,
       "segments": [
-        
         {
           "background": "transparent",
           "foreground": "p:white",
+          "style": "plain",
+          "template": "\u250c",
+          "type": "text"
+        },
+        {
+          "background": "#464646",
+          "foreground": "p:white",
           "properties": {
-            "folder_icon": "\uf07b",
-            "folder_separator_template": "<#93d0ff> \u00bb </>",
-            "home_icon": "\ueb06",
-            "style": "agnoster"
+            "windows": "\ue62a",
+            "linux": "\uf17c",
+            "ubuntu": "\uf31b",
+            "macos": "\uf179"
           },
           "style": "plain",
-          "template": "<#93d0ff>[</> {{.Path}} <#93d0ff>]</>",
-          "type": "path"
+          "template": " {{.Icon}}{{if .WSL}} (WSL){{end}}\u2800",
+          "type": "os"
         },
+
         {
           "background": "p:dracublue",
           "foreground": "p:white",
@@ -50,15 +51,35 @@
       "segments": [
         {
           "background": "transparent",
-          "foreground": "p:green_soft",
+          "foreground": "p:white",
+          "properties": {
+            "folder_icon": "\uf07b",
+            "folder_separator_template": "<#93d0ff> \u00bb </>",
+            "home_icon": "\ueb06",
+            "style": "agnoster"
+          },
+          "style": "plain",
+          "template": "<p:white>\u2514</><#93d0ff>[</> {{.Path}} <#93d0ff>]</>",
+          "type": "path"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "background": "transparent",
+          "foreground": "#81ff91",
           "foreground_templates": [
-            "{{if gt .Code 0}}#ff6b6b{{end}}"
+            "{{if gt .Code 0}}#ff3030{{end}}"
           ],
           "properties": {
             "always_enabled": true
           },
           "style": "plain",
-          "template": "❯ ",
+          "template": "\u276f",
           "type": "status"
         }
       ]

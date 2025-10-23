@@ -7,6 +7,15 @@ vim.g.mapleader = " " -- Leader key
 vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true, silent = true })
 
 -- ════════════════════════════════════════
+-- ✂️ Faciliter les text objects avec ' et "
+-- ════════════════════════════════════════
+-- Remapper ' et " pour éviter la confusion avec les marks
+-- \ (backslash) pour aller aux marks (remplace ')
+-- | (pipe) pour les registers (remplace ")
+vim.keymap.set('n', '\\', [[<Cmd>normal! '<CR>]], { noremap = true, desc = "Aller au mark (remplacé par \\)" })
+vim.keymap.set('n', '|', [[<Cmd>normal! "<CR>]], { noremap = true, desc = "Utiliser register (remplacé par |)" })
+
+-- ════════════════════════════════════════
 -- 🌲 NvimTree (explorateur de fichiers)
 -- ════════════════════════════════════════
 vim.api.nvim_set_keymap('n', '<leader>d', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
@@ -21,39 +30,70 @@ vim.api.nvim_set_keymap('n', '<S-L>', ':tabnext<CR>', { noremap = true, silent =
 
 
 -- ════════════════════════════════════════
--- 🔍 Telescope (recherche de fichiers)
+-- 🔍 Telescope (recherche de fichiers et texte)
 -- ════════════════════════════════════════
 local ok, builtin = pcall(require, "telescope.builtin")
 if ok then
-    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'find files' })
+    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Trouver fichiers' })
+    vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Rechercher texte dans fichiers' })
+    vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Lister buffers ouverts' })
 end
 
 -- ════════════════════════════════════════
--- 🔁 Terminal toggle (<leader>t)
+-- 🔁 Terminal flottant (<leader>t)
 -- ════════════════════════════════════════
 local terminal_bufnr = nil
+local terminal_win = nil
 
 -- Échap dans terminal → retourne en mode normal
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 
--- Toggle terminal avec <leader>t
+-- Toggle terminal flottant avec <leader>t
 vim.keymap.set("n", "<leader>t", function()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_get_buf(win) == terminal_bufnr then
-      vim.api.nvim_win_close(win, true)
-      terminal_bufnr = nil
-      return
-    end
+  -- Si le terminal est déjà ouvert, le fermer
+  if terminal_win and vim.api.nvim_win_is_valid(terminal_win) then
+    vim.api.nvim_win_close(terminal_win, true)
+    terminal_win = nil
+    return
   end
 
+  -- Créer le buffer terminal si nécessaire
   if not terminal_bufnr or not vim.api.nvim_buf_is_valid(terminal_bufnr) then
-    vim.cmd("belowright split | terminal")
-    terminal_bufnr = vim.api.nvim_get_current_buf()
-  else
-    vim.cmd("belowright split")
-    vim.api.nvim_win_set_buf(0, terminal_bufnr)
+    terminal_bufnr = vim.api.nvim_create_buf(false, true)
   end
-end, { noremap = true, silent = true, desc = "Terminal Toggle" })
+
+  -- Calculer la taille de la fenêtre (80% de l'écran)
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  
+  -- Calculer la position centrée
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+  
+  -- Options de la fenêtre flottante
+  local opts = {
+    relative = 'editor',
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = 'minimal',
+    border = 'rounded',
+    title = ' 💻 Terminal ',
+    title_pos = 'center',
+  }
+  
+  -- Créer la fenêtre flottante
+  terminal_win = vim.api.nvim_open_win(terminal_bufnr, true, opts)
+  
+  -- Ouvrir le terminal dans le buffer (seulement si nouveau buffer)
+  if vim.api.nvim_buf_line_count(terminal_bufnr) == 1 and vim.api.nvim_buf_get_lines(terminal_bufnr, 0, 1, false)[1] == '' then
+    vim.fn.termopen(vim.o.shell)
+  end
+  
+  -- Passer en mode insert automatiquement
+  vim.cmd('startinsert')
+end, { noremap = true, silent = true, desc = "Terminal flottant" })
 
 -- ════════════════════════════════════════
 -- 🕵️‍♂️ Toggle caractères invisibles

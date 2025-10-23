@@ -14,7 +14,6 @@ dashboard.section.header.val = header_random.generate()
 -- 🧩 Boutons du dashboard
 -- ════════════════════════════════════════
 dashboard.section.buttons.val = {
-  dashboard.button("f", "🔍  Trouver un fichier", ":Telescope find_files<CR>"),
   dashboard.button("e", "📄  Nouveau fichier", ":ene <BAR> startinsert <CR>"),
   dashboard.button("d", "📁  Ouvrir l'arborescence", ":NvimTreeToggle<CR>"),
   dashboard.button("r", "🕘  Fichiers récents", ":Telescope oldfiles<CR>"),

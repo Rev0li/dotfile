@@ -1,88 +1,171 @@
-# 📋 Changelog - Nettoyage et restructuration
+# 📝 Changelog
 
-## 🗓️ Date : 23 Octobre 2025
-
-### ✅ **Modifications effectuées**
-
-#### **1. Suppression des fichiers inutiles**
-- ❌ Supprimé `fish/` (shell non utilisé, tu utilises Zsh)
-- ❌ Supprimé `gtk-3.0/` (config système vide)
-- ❌ Supprimé `ibus/` (config clavier locale)
-- ❌ Supprimé `pulse/` (config audio locale)
-- ❌ Supprimé `mimeapps.list` (config système spécifique)
-
-#### **2. Nettoyage du dossier Windsurf**
-- 🧹 Supprimé tous les caches et fichiers temporaires (27 MB)
-- ✅ Conservé uniquement `Windsurf/User/settings.json`
-- 📝 Ajouté des règles `.gitignore` pour ignorer les caches futurs
-
-#### **3. Amélioration du .gitignore**
-Ajout de règles complètes pour :
-- Binaires (nvim-linux64, kitty-linux64)
-- Caches Neovim et Windsurf
-- Fichiers temporaires système
-- Configurations locales
-
-#### **4. Création du script d'installation automatique**
-- 📦 `install.sh` : Installation complète en une commande
-  - Détection automatique du gestionnaire de paquets (apt/pacman/dnf)
-  - Installation de Zsh, Oh My Posh, Nerd Fonts
-  - Téléchargement de Neovim et Kitty
-  - Création automatique des symlinks
-  - Configuration du shell par défaut
-
-#### **5. Mise à jour de la documentation**
-- 📖 README.md mis à jour avec :
-  - Instructions d'installation automatique
-  - Arborescence complète et à jour
-  - Section installation manuelle conservée
+Toutes les modifications notables de ce projet seront documentées dans ce fichier.
 
 ---
 
-### 📊 **Résultat**
+## [2.0.0] - 2025-01-23
 
-**Avant :**
-- Dépôt encombré avec binaires et caches (~164 MB)
-- Fichiers système non portables
-- Installation manuelle complexe
+### ✨ Ajouts Majeurs
 
-**Après :**
-- Dépôt propre avec seulement les configs
-- `.gitignore` complet
-- Installation automatisée en une commande
-- Structure claire et documentée
+#### **Cheatsheet Intégré**
+- Fenêtre flottante avec tous les raccourcis Vim/Neovim
+- Sections : Marks, Text Objects, Navigation, Visual, Search, Windows, Undo, Registers, Files, Telescope
+- Raccourci : `<leader>k`
+- Fermeture : `q`, `Esc`, ou `Enter`
+
+#### **Terminal Flottant**
+- Terminal centré prenant 80% de l'écran
+- Bordure arrondie avec titre "💻 Terminal"
+- Raccourci : `<leader>t`
+- Passe automatiquement en mode insert
+- Réutilise la même session
+
+#### **Telescope Live Grep**
+- Recherche de texte dans tous les fichiers du projet
+- Support regex
+- Affichage fichier + ligne
+- Raccourci : `<leader>g`
+- Nécessite ripgrep (installé automatiquement)
+
+#### **Telescope Buffers**
+- Liste des buffers ouverts
+- Switch rapide entre fichiers
+- Raccourci : `<leader>b`
+
+### 🔧 Améliorations
+
+#### **Timeout Text Objects**
+- Augmenté à 1 seconde (au lieu de 300ms)
+- Plus de temps pour taper `ci'`, `ci"`, etc.
+- Configurable dans `settings.lua`
+
+#### **APIs Neovim**
+- Remplacement des APIs deprecated
+- `vim.bo[buf]` au lieu de `nvim_buf_set_option()`
+- `vim.wo[win]` au lieu de `nvim_win_set_option()`
+
+#### **Script d'Installation**
+- Ajout de ripgrep dans les dépendances
+- Vérifications améliorées
+- Messages plus clairs
+- Support apt, pacman, dnf
+
+### 📚 Documentation
+
+#### **Nouveaux Fichiers**
+- `INSTALL_GUIDE.md` - Guide d'installation complet
+- `FEATURES.md` - Liste complète des fonctionnalités
+- `CONTRIBUTING.md` - Guide pour les contributeurs
+- `docs/TELESCOPE_GUIDE.md` - Guide Telescope détaillé
+- `docs/TEXT_OBJECTS_TIPS.md` - Astuces text objects
+- `docs/NVIM_REMAPS.md` - Documentation des remaps
+
+#### **README Mis à Jour**
+- Ajout des nouvelles fonctionnalités
+- Mise à jour des raccourcis
+- Amélioration de la structure
+
+### 🐛 Corrections
+
+#### **Dashboard**
+- Correction du `dashboard.button()` vide qui causait une erreur
+- Suppression de la ligne problématique
+
+#### **Cheatsheet**
+- Correction de la ligne text objects manquante
+- Mise à jour du timeout (1s au lieu de 300ms)
+
+### 🗑️ Suppressions
+
+- Suppression des remaps `'` et `"` (causaient des erreurs)
+- Nettoyage des fichiers temporaires
+- Déplacement de la documentation dans `docs/`
 
 ---
 
-### 🎯 **Prochaines étapes recommandées**
+## [1.0.0] - 2025-01-20
 
-1. **Commit et push des changements :**
-   ```sh
-   git add .
-   git commit -m "🧹 Nettoyage complet : suppression fichiers inutiles, ajout install.sh"
-   git push
-   ```
+### ✨ Version Initiale
 
-2. **Nettoyer l'historique Git (optionnel) :**
-   Si tu veux supprimer les binaires de l'historique Git pour réduire la taille du dépôt :
-   ```sh
-   git filter-branch --tree-filter 'rm -rf nvim/nvim-linux64 kitty/kitty-linux64' HEAD
-   git push --force
-   ```
-   ⚠️ **Attention** : Cette opération réécrit l'historique Git !
+#### **Neovim**
+- Dashboard personnalisé (alpha-nvim)
+- LSP natif (C, Python, Lua)
+- Autocomplétion (nvim-cmp)
+- Syntax highlighting (Treesitter)
+- Explorateur de fichiers (NvimTree)
+- Telescope (recherche de fichiers)
+- 7 thèmes disponibles
+- Header 42
 
-3. **Tester l'installation sur une machine propre :**
-   ```sh
-   git clone https://github.com/Rev0li/dotfile.git ~/dotfiles-test
-   cd ~/dotfiles-test
-   ./install.sh
-   ```
+#### **Zsh**
+- Configuration modulaire
+- Oh My Posh (prompt moderne)
+- Alias et fonctions utiles
+- Gestion de la luminosité
+
+#### **Kitty**
+- Configuration complète
+- Splits et tabs
+- Font : JetBrains Mono Nerd Font
+- Thème : Catppuccin Mocha
+
+#### **Installation**
+- Script d'installation automatique
+- Installation de Neovim portable
+- Installation de Kitty portable
+- Installation des fonts
+- Création des symlinks
 
 ---
 
-### 📝 **Notes**
+## 📊 Statistiques
 
-- Les binaires (Neovim, Kitty) sont maintenant téléchargés automatiquement
-- Le `.gitignore` empêche de les versionner à l'avenir
-- La configuration reste 100% portable
-- Oh My Posh est utilisé pour l'affichage du prompt Zsh
+### **Version 2.0.0**
+- **Fichiers modifiés** : 20+
+- **Nouvelles fonctionnalités** : 4 majeures
+- **Corrections de bugs** : 3
+- **Documentation** : 6 nouveaux fichiers
+- **Lignes de code ajoutées** : ~1500
+
+### **Version 1.0.0**
+- **Fichiers** : 50+
+- **Plugins** : 21
+- **Thèmes** : 7
+- **Langages LSP** : 3
+
+---
+
+## 🎯 Prochaines Versions
+
+### **v2.1.0 (Prévu)**
+- [ ] Support TypeScript/JavaScript LSP
+- [ ] Support Go LSP
+- [ ] Support Rust LSP
+- [ ] Intégration Git (Fugitive ou Neogit)
+- [ ] Amélioration du dashboard (projets récents)
+
+### **v2.2.0 (Prévu)**
+- [ ] Debugger (DAP)
+- [ ] Tests automatisés
+- [ ] CI/CD
+- [ ] Plus de thèmes
+- [ ] Snippets personnalisés
+
+---
+
+## 📝 Format
+
+Ce changelog suit le format [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
+et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
+
+### **Types de Changements**
+- `Ajouts` - Nouvelles fonctionnalités
+- `Améliorations` - Améliorations de fonctionnalités existantes
+- `Corrections` - Corrections de bugs
+- `Suppressions` - Fonctionnalités supprimées
+- `Sécurité` - Corrections de vulnérabilités
+
+---
+
+**Dernière mise à jour : 23 janvier 2025**

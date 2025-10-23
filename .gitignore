@@ -16,11 +16,15 @@ kitty/kitty.app/
 nvim/.netrwhist
 nvim/plugin/
 nvim/lazy-lock.json
+nvim/.theme
 
 # Zsh
 zsh/.zcompdump*
 zsh/.zsh_history
 zsh/local.zsh
+
+# Node.js (nvm)
+nvm/
 
 # ─────────────────────────────────────────────
 # 🖥️ Fichiers système spécifiques

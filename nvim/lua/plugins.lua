@@ -22,23 +22,38 @@ require("lazy").setup({
     { "kyazdani42/nvim-tree.lua" },
 
 -- ════════════════════════════════════════
--- ⚙️ LSP & Mason
+-- ⚙️ Mason (installation des LSP binaires)
 -- ════════════════════════════════════════
     {
         "williamboman/mason.nvim",
-        config = function() require("mason").setup() end
+        config = function()
+            require("mason").setup()
+            
+            -- Installer automatiquement les LSP au premier lancement
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "MasonToolsUpdateCompleted",
+                callback = function()
+                    vim.notify("✓ LSP installés", vim.log.levels.INFO)
+                end,
+            })
+        end
     },
     {
-        "williamboman/mason-lspconfig.nvim",
-        version = "1.29.0",
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
         dependencies = { "williamboman/mason.nvim" },
         config = function()
-            require("mason-lspconfig").setup({
-                ensure_installed = { "clangd", "pyright", "lua_ls" },
+            require("mason-tool-installer").setup({
+                ensure_installed = {
+                    "clangd",      -- C/C++
+                    "pyright",     -- Python
+                    "lua-language-server",  -- Lua
+                    "typescript-language-server",  -- JavaScript/TypeScript
+                },
+                auto_update = false,
+                run_on_start = true,
             })
         end,
     },
-    { "neovim/nvim-lspconfig" },
 
 -- ════════════════════════════════════════
 -- 🌳 Treesitter (highlight + indentation)

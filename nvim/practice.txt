@@ -1,0 +1,44 @@
+# 🎯 Fichier d'entraînement Neovim
+
+## Exercice 1 : Text Objects (ci/ca/di/da)
+
+Essaye de changer le contenu entre guillemets :
+print("Hello World")
+
+Essaye de supprimer le contenu des parenthèses :
+calculate(10, 20, 30)
+
+Essaye de changer le contenu des accolades :
+if (condition) { code here }
+
+Essaye de changer le contenu entre apostrophes :
+message = 'old text'
+
+## Exercice 2 : Marks (marques)
+
+1. Place ton curseur ici et tape : ma
+2. Descends en bas du fichier
+3. Tape : 'a pour revenir ici
+
+## Exercice 3 : Navigation
+
+Trouve la lettre 'x' sur cette ligne avec f :
+abcdefghijklmnopqrstuvwxyz
+
+Cherche le mot "target" avec * :
+target target target
+
+## Exercice 4 : Visual Block
+
+Commente ces lignes avec Ctrl-v :
+int a = 1;
+int b = 2;
+int c = 3;
+
+## Exercice 5 : Registers
+
+1. Copie cette ligne dans le register 'a' : "ayy
+2. Copie cette ligne dans le register 'b' : "byy
+3. Paste avec "ap et "bp
+
+## 🎉 Continue à pratiquer !

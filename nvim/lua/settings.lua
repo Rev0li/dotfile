@@ -9,6 +9,12 @@ vim.opt.ignorecase = true              -- Ignore la casse dans les recherches
 vim.opt.smartcase = true               -- Respecte la casse si un caractère maj est présent
 
 -- ════════════════════════════════════════
+-- ⏱️  Timeouts (pour éviter confusion marks/text objects)
+-- ════════════════════════════════════════
+vim.opt.timeoutlen = 1000              -- Temps d'attente pour les séquences (1 seconde)
+vim.opt.ttimeoutlen = 10               -- Temps d'attente pour les codes clavier (ms)
+
+-- ════════════════════════════════════════
 -- ⬛️  Indentation & tabulations
 -- ════════════════════════════════════════
 vim.opt.tabstop = 4                    -- Largeur d’un tab = 4 espaces visuellement

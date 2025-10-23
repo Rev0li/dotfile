@@ -6,10 +6,19 @@
 require("settings")    -- ⚙️  Options générales
 require("plugins")     -- 📦 Gestionnaire de plugins (lazy.nvim)
 require("keymaps")     -- ⌨️  Raccourcis clavier
-require("lsp")         -- 🔧 Configuration des serveurs LSP
-require("treesitter")  -- 🌳 Configuration de Treesitter
-require("nvimtree")    -- 📁 Explorateur de fichiers
-require("dashboard")   -- 🚀 Page d’accueil personnalisée
+
+-- Charger LSP après que les plugins soient prêts
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    require("lsp_native")  -- 🔧 Configuration LSP native (sans plugin)
+    require("treesitter")  -- 🌳 Configuration de Treesitter
+    require("nvimtree")    -- 📁 Explorateur de fichiers
+    require("cheatsheet")  -- 📚 Cheatsheet interactif (<leader>k)
+  end,
+})
+
+require("dashboard")   -- 🚀 Page d'accueil personnalisée
 
 -- ════════════════════════════════════════
 -- 🎨 Chargement du thème sauvegardé
