@@ -183,7 +183,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     
     -- Autocomplétion (native Neovim 0.11+)
     if client and client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+      vim.lsp.completion.enable(true, client.id, args.buf)
     end
     
     -- Notification
