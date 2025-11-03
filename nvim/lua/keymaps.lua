@@ -32,12 +32,20 @@ vim.api.nvim_set_keymap('n', '<S-L>', ':tabnext<CR>', { noremap = true, silent =
 -- ════════════════════════════════════════
 -- 🔍 Telescope (recherche de fichiers et texte)
 -- ════════════════════════════════════════
-local ok, builtin = pcall(require, "telescope.builtin")
-if ok then
-    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Trouver fichiers' })
-    vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Rechercher texte dans fichiers' })
-    vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Lister buffers ouverts' })
-end
+-- Charger les keymaps après que Telescope soit prêt
+vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    callback = function()
+        local ok, builtin = pcall(require, "telescope.builtin")
+        if ok then
+            vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Trouver fichiers' })
+            vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Rechercher texte dans fichiers' })
+            vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Lister buffers ouverts' })
+        else
+            vim.notify("⚠️  Telescope n'est pas chargé", vim.log.levels.WARN)
+        end
+    end,
+})
 
 -- ════════════════════════════════════════
 -- 🔁 Terminal flottant (<leader>t)
