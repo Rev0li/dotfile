@@ -5,7 +5,8 @@
 # Définir le répertoire des dotfiles
 export DOTFILES_DIR="$HOME/dotfiles"
 export ZSH_CONFIG_DIR="$DOTFILES_DIR/zsh"
-
+export PATH=$HOME/.local/ffmpeg/ffmpeg-*-static:$PATH
+export PATH=$HOME/.config/helix/runtime
 # Charger tous les modules dans l'ordre
 source "$ZSH_CONFIG_DIR/exports.zsh"
 source "$ZSH_CONFIG_DIR/plugins.zsh"
@@ -25,14 +26,13 @@ source "$ZSH_CONFIG_DIR/functions.zsh"   # 🛠️ Fonctions nettoyées
 autoload -Uz compinit
 compinit
 
-# Oh My Posh (si installé)
-if command -v oh-my-posh &> /dev/null; then
-  eval "$(oh-my-posh init zsh --config ~/dotfiles/OhMyPosh/hul10.omp.json)"
+# Starship (si installé)
+if command -v starship &> /dev/null; then
+  export STARSHIP_CONFIG="$DOTFILES_DIR/starship/starship.toml"
+  eval "$(starship init zsh)"
 fi
 
 # Affichage initial sobre (optionnel, commenté par défaut)
 # display_tree_simple
 
-export NVM_DIR="$HOME/dotfiles/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"

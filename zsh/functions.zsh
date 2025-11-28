@@ -91,6 +91,7 @@ function grep_files() {
     grep -r --include="*.$extension" "$pattern" . 2>/dev/null
 }
 
+
 ############################
 # 📦 Gestion des archives
 ############################

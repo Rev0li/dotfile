@@ -1,249 +1,206 @@
+# 🚀 Dotfiles - Configuration moderne pour développeurs
 
-# ⚡ Dotfiles Neovim + Zsh + Kitty — *by Rev0li*
+Configuration personnalisée pour un environnement de développement moderne et efficace.
 
-> **Une configuration portable, moderne, et minimaliste pour tous tes besoins de dev sous Linux.**
+## 📦 Stack
 
----
+- **🖥️ WezTerm** - Terminal émulateur GPU-accelerated moderne
+- **⭐ Starship** - Prompt shell minimaliste et rapide
+- **✏️ Helix** - Éditeur de texte modal post-moderne
+- **🐚 Zsh** - Shell avec configurations personnalisées
 
-## 🗂️ Arborescence des fichiers
+## ✨ Fonctionnalités
 
-```
-dotfiles/
-├── nvim/
-│   ├── lua/
-│   │   ├── dashboard.lua      # Dashboard Neovim personnalisé
-│   │   ├── keymaps.lua        # Tous les raccourcis clavier Neovim
-│   │   ├── lsp.lua            # Config LSP (C, Python, Lua)
-│   │   ├── nvimtree.lua       # Explorateur de fichiers
-│   │   ├── plugins.lua        # Plugins via Lazy.nvim
-│   │   ├── settings.lua       # Options d'affichage & système
-│   │   └── treesitter.lua     # Syntax highlighting performant
-│   ├── nvim-linux64/          # Binaire Neovim (téléchargé par install.sh)
-│   ├── .theme                 # Thème sélectionné dernièrement
-│   └── init.lua               # Point d'entrée principal
-├── zsh/
-│   ├── custom_zshrc.zsh       # Point d'entrée principal Zsh
-│   ├── aliases.zsh            # Alias et raccourcis
-│   ├── exports.zsh            # Variables d'environnement
-│   ├── functions.zsh          # Fonctions utilitaires
-│   ├── options.zsh            # Options Zsh
-│   ├── plugins.zsh            # Gestion des plugins
-│   ├── styles.zsh             # Styles d'affichage
-│   └── brightness.sh          # Script de gestion luminosité
-├── kitty/
-│   ├── kitty.conf             # Config Kitty complète
-│   ├── session.conf           # Layout de démarrage personnalisé
-│   └── kitty-linux64/         # Binaire Kitty (téléchargé par install.sh)
-├── OhMyPosh/
-│   ├── hul10.omp.json         # Thème Oh My Posh personnalisé
-│   └── install.sh             # Script d'installation Oh My Posh
-├── .gitignore                 # Fichiers à ignorer
-├── install.sh                 # 🚀 Script d'installation automatique
-├── minimum_install.sh         # Installation minimale (fonts + Oh My Posh)
-└── README.md
-```
+### WezTerm
+- Thème Rose Pine Moon (cohérent avec Helix)
+- Navigation entre panes avec `Ctrl+Shift+hjkl`
+- Splits horizontaux/verticaux
+- Transparence et blur
+- Configuration Lua moderne
 
----
+### Starship
+- Prompt élégant et informatif
+- Affichage Git intelligent
+- Icônes pour langages de programmation
+- Temps d'exécution des commandes
+- Configuration personnalisable
 
-## 🚀 Aperçu visuel
+### Helix
+- Thème Rose Pine Moon
+- Numéros de ligne relatifs
+- LSP activé avec inlay hints
+- Navigation entre fenêtres avec `Ctrl+hjkl`
+- Configuration minimaliste
 
-📸 **Dashboard Neovim**
-![Dashboard](https://imgur.com/hmZqQct.png)
+### Zsh
+- Aliases personnalisés
+- Fonctions utilitaires
+- Plugins optimisés
+- Styles et options configurés
 
-📁 **Explorateur NvimTree avec icônes**
-![NvimTree](https://imgur.com/DyqP4kV.png)
+## 🔧 Installation
 
-🎨 **Sélecteur de thème interactif**
-![Theme Selector](https://imgur.com/84xaThl.png)
+### Installation automatique
 
----
-
-## 🛠️ Installation rapide
-
-### **Installation automatique (recommandée)**
-
-```sh
-# Clone le dépôt
-git clone https://github.com/Rev0li/dotfile.git ~/dotfiles
-
-# Lance le script d'installation
+```bash
 cd ~/dotfiles
+chmod +x install.sh
 ./install.sh
 ```
 
-Le script va automatiquement :
-- ✅ Installer Zsh, curl, wget, unzip
-- ✅ Télécharger et installer Oh My Posh
-- ✅ Installer JetBrains Mono Nerd Font
-- ✅ Télécharger Neovim et Kitty (binaires portables)
-- ✅ Créer les symlinks nécessaires
-- ✅ Définir Zsh comme shell par défaut
+Le script d'installation va :
+1. ✅ Détecter votre gestionnaire de paquets (apt/pacman/dnf)
+2. ✅ Installer les dépendances nécessaires
+3. ✅ Installer WezTerm, Starship et Helix
+4. ✅ Installer JetBrains Mono Nerd Font
+5. ✅ Créer les symlinks de configuration
+6. ✅ Sauvegarder vos anciennes configurations
 
-### **Installation manuelle**
+### Installation manuelle
 
-Si tu préfères installer manuellement :
+Si vous préférez installer manuellement :
 
-1. **Clone le dépôt :**
-   ```sh
-   git clone https://github.com/Rev0li/dotfile.git ~/dotfiles
-   ```
+```bash
+# 1. Installer les outils
+# Voir les commandes spécifiques à votre distribution dans install.sh
 
-2. **Installe les dépendances :**
-   ```sh
-   # Debian/Ubuntu
-   sudo apt install zsh curl wget unzip
+# 2. Créer les symlinks
+ln -sf ~/dotfiles/zsh/custom_zshrc.zsh ~/.zshrc
+ln -sf ~/dotfiles/helix ~/.config/helix
+ln -sf ~/dotfiles/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua
 
-   # Arch/Manjaro
-   sudo pacman -S zsh curl wget unzip
-   ```
+# 3. Recharger Zsh
+exec zsh
+```
 
-3. **Installe les Nerd Fonts :**
-   ```sh
-   cd ~/dotfiles
-   ./minimum_install.sh
-   ```
+## 📁 Structure
 
-4. **Crée les symlinks :**
-   ```sh
-   ln -sf ~/dotfiles/zsh/custom_zshrc.zsh ~/.zshrc
-   ln -sf ~/dotfiles/nvim ~/.config/nvim
-   mkdir -p ~/.config/kitty
-   ln -sf ~/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
-   ```
+```
+dotfiles/
+├── helix/              # Configuration Helix
+│   └── config.toml
+├── starship/           # Configuration Starship
+│   └── starship.toml
+├── wezterm/            # Configuration WezTerm
+│   └── wezterm.lua
+├── zsh/                # Configuration Zsh
+│   ├── aliases.zsh
+│   ├── custom_zshrc.zsh
+│   ├── exports.zsh
+│   ├── functions.zsh
+│   ├── options.zsh
+│   ├── plugins.zsh
+│   └── styles.zsh
+├── Old/                # Anciennes configurations (kitty, nvim, OhMyPosh)
+└── install.sh          # Script d'installation
+```
 
-5. **Change le shell par défaut :**
-   ```sh
-   chsh -s $(which zsh)
-   ```
+## ⌨️ Raccourcis clavier
 
----
+### WezTerm
 
-## ✨ Fonctionnalités & points forts
+| Raccourci | Action |
+|-----------|--------|
+| `Ctrl+Shift+\|` | Split horizontal |
+| `Ctrl+Shift+_` | Split vertical |
+| `Ctrl+Shift+h/j/k/l` | Navigation entre panes |
+| `Ctrl+Shift+←/→/↑/↓` | Redimensionner panes |
+| `Ctrl+Shift+w` | Fermer pane |
+| `Ctrl+Shift+t` | Nouveau tab |
+| `Ctrl+Tab` | Tab suivant |
+| `Ctrl+Shift+Tab` | Tab précédent |
 
-* **Neovim 100% portable** (aucune install système)
-* **Dashboard custom + header ASCII dynamique**
-* **Sélecteur de thème interactif** (popup)
-* **Cheatsheet intégré** (fenêtre flottante avec tous les raccourcis)
-* **Terminal flottant** (80% de l'écran, centré, bordure arrondie)
-* **Telescope** : recherche de fichiers ET texte dans le projet
-* **Explorateur de fichiers (NvimTree) avec icônes**
-* **LSP prêt à l'emploi** (C, Python, Lua)
-* **Autocomplétion intelligente et Treesitter**
-* **Navigation split, tabs, resize, terminal toggle…**
-* **Timeout 1 seconde** pour text objects (ci', ci", etc.)
-* **Sauvegarde automatique à la sortie du mode insert**
-* **Affichage caractères invisibles, indentation claire**
-* **Zsh minimaliste, thèmes, alias pratiques**
-* **Kitty ultra-configuré (splits, tabs, layouts, etc.)**
+### Helix
 
----
+| Raccourci | Action |
+|-----------|--------|
+| `Ctrl+h/j/k/l` | Navigation entre fenêtres |
+| `Space+f` | Ouvrir fichier |
+| `Space+b` | Liste des buffers |
+| `:w` | Sauvegarder |
+| `:q` | Quitter |
 
-## ⌨️ **Raccourcis & commandes utiles**
+Voir la [documentation Helix](https://docs.helix-editor.com/) pour plus de raccourcis.
 
-### **Neovim**
-<leader> = touche espace en Normal Mode
-<C-*>*   = Ctrl+ * puis *
-<S-*>    = Shift + *
-#### 🗂️ Onglets
+## 🎨 Personnalisation
 
-| Action                     | Raccourci                 |
-| -------------------------- | ------------------------- |
-| Ouvrir un nouvel onglet    | `<leader>nn`              |
-| Fermer l’onglet courant    | `<leader>nc`              |
-| Aller à l’onglet précédent | `<S-H>` ou `<C-PageUp>`   |
-| Aller à l’onglet suivant   | `<S-L>` ou `<C-PageDown>` |
+### Changer le thème
 
-#### 🌲 Fichiers & Arborescence
+**Helix** (`helix/config.toml`) :
+```toml
+theme = "rose_pine_moon"  # Changer ici
+```
 
-| Action                         | Raccourci           |
-| ------------------------------ | ------------------- |
-| Ouvrir/fermer l’explorateur    | `<leader>d`         |
-| Trouver un fichier (Telescope) | `<leader>f`         |
-| Rechercher texte dans fichiers | `<leader>g`         |
-| Lister les buffers ouverts     | `<leader>b`         |
-| Fichiers récents               | Depuis le Dashboard |
+**WezTerm** (`wezterm/wezterm.lua`) :
+```lua
+config.color_scheme = 'rose-pine-moon'  -- Changer ici
+```
 
-#### 🪟 Splits & navigation
+**Starship** (`starship/starship.toml`) :
+Modifier les couleurs dans chaque section `style = "bold color"`
 
-| Action                                | Raccourci      |
-| ------------------------------------- | -------------- |
-| Split horizontal                      | `<C-w>s`       |
-| Split vertical                        | `<C-w>v`      |
-| Naviguer split gauche/droite/haut/bas | `Ctrl+Flèches` |
-| Redimensionner split                  | `Alt+Flèches`  |
+### Ajouter des aliases Zsh
 
-#### 🖥️ Terminal flottant
+Éditer `zsh/aliases.zsh` :
+```bash
+alias mon_alias="ma_commande"
+```
 
-| Action                    | Raccourci   |
-| ------------------------- | ----------- |
-| Toggle terminal flottant  | `<leader>t` |
-| Échap mode terminal       | `<Esc>`     |
-| Fermer terminal           | `<leader>t` |
+## 🔄 Mise à jour
 
-**Note :** Le terminal est flottant, centré, et prend 80% de l'écran.
+```bash
+cd ~/dotfiles
+git pull
+source ~/.zshrc  # Recharger Zsh
+```
 
-#### 🗝️ Autres
+## 🐛 Dépannage
 
-| Action                       | Raccourci                                          |
-| ---------------------------- | -------------------------------------------------- |
-| Afficher le cheatsheet       | `<leader>k`                                        |
-| Toggle caractères invisibles | `<leader>l`                                        |
-| Changer de thème (popup)     | `t` depuis le dashboard                            |
+### Starship ne s'affiche pas
+```bash
+# Vérifier que Starship est installé
+which starship
 
-**Cheatsheet :** Fenêtre flottante avec tous les raccourcis Vim/Neovim (marks, text objects, navigation, etc.)
+# Réinstaller si nécessaire
+curl -sS https://starship.rs/install.sh | sh
+```
 
-#### 🏷️ **Header 42**
+### WezTerm ne trouve pas la config
+```bash
+# Vérifier le symlink
+ls -la ~/.config/wezterm/wezterm.lua
 
-* Générer ou mettre à jour un header : `:Stdheader` ou touche `<F1>`
+# Recréer si nécessaire
+ln -sf ~/dotfiles/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua
+```
 
----
+### Helix : LSP ne fonctionne pas
+```bash
+# Installer les language servers nécessaires
+# Exemple pour Rust :
+rustup component add rust-analyzer
 
-### **Kitty (terminal)**
+# Exemple pour Python :
+pip install python-lsp-server
+```
 
-> **Super** = Touche `Windows` ou `Cmd` (Mac).
-#### 📂 Splits
+## 📚 Ressources
 
-| Action                                | Raccourci            |
-| ------------------------------------- | -------------------- |
-| Split                                 | `Ctrl+Shift+e`       |
-| Naviguer split gauche/droite/haut/bas | `Ctrl+Shift+Flèches` |
-| Redimensionner split                  | `Alt+Shift+Flèches`  |
+- [WezTerm Documentation](https://wezfurlong.org/wezterm/)
+- [Starship Documentation](https://starship.rs/)
+- [Helix Documentation](https://docs.helix-editor.com/)
+- [Zsh Documentation](https://zsh.sourceforge.io/Doc/)
 
-#### 🗂️ Tabs
+## 📝 Notes
 
-| Action                             | Raccourci                    |
-| ---------------------------------- | ---------------------------- |
-| Nouvel onglet                      | `Super+t`                    |
-| Fermer l’onglet courant            | `Super+c`                    |
-| Quitter kitty                      | `Super+q`                    |
-| Aller à l’onglet suivant/précédent | `Ctrl+Shift+PageDown/PageUp` |
+- Les anciennes configurations (Kitty, Neovim, Oh My Posh) sont dans le dossier `Old/`
+- La police JetBrains Mono Nerd Font est requise pour l'affichage des icônes
+- Zsh est conservé car Starship est un prompt, pas un shell
 
-#### 📑 Divers
+## 🤝 Contribution
 
-| Action                  | Raccourci |
-| ----------------------- | --------- |
-| Changer le nom d’onglet | `Super+r` |
-| Fermer une fenêtre      | `Super+w` |
+N'hésitez pas à proposer des améliorations via des pull requests !
 
+## 📄 Licence
 
----
-
-## 🪄 **Conseils & prise en main rapide**
-
-* **Tout fonctionne out-of-the-box** : clone, symlink, lance, c’est prêt !
-* **Neovim** : Menu dashboard dès l’ouverture, accès rapide à tout via `<leader>`
-* **Kitty** : Splits & tabs faciles, navigation intuitive
-* **Zsh** : Complet, prompt moderne, alias pour toutes les commandes récurrentes
-* **Fichier `.theme`** pour garder le dernier thème sélectionné en mémoire
-
----
-
-## 🏁 **À venir / TODO**
-
-* [ ] Ajout d’autres thèmes (preview live)
-* [ ] Section projets récents & commits Git dans le dashboard
-* [ ] Intégration de plugins additionnels pour les besoins avancés
-
----
-
-## ❤️ *Config maison pensée pour bosser vite et bien — plug & play.*
+Configuration personnelle - Utilisez librement et adaptez à vos besoins.

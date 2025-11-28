@@ -1,0 +1,25 @@
+theme = "rose_pine_moon"
+
+[editor]
+line-number = "relative"
+mouse = true
+cursorline = true
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[editor.gutters]
+layout = ["diagnostics", "spacer", "line-numbers", "spacer", "diff"]
+# Navigation entre fenêtres avec Ctrl+hjkl
+[keys.normal]
+"C-h" = "jump_view_left"
+"C-j" = "jump_view_down"
+"C-k" = "jump_view_up"
+"C-l" = "jump_view_right"
