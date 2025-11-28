@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════
 
 format = """
-[╭─](bold blue)$username$hostname$directory$git_branch$git_status$git_state
+[╭─](bold blue)$username$directory$git_branch$git_status$git_state
 [╰─](bold blue)$character"""
 
 # Timeout pour les commandes
@@ -22,7 +22,7 @@ error_symbol = "[✗](bold red)"
 vimcmd_symbol = "[←](bold green)"
 
 [username]
-style_user = "bold yellow"
+style_user = "bold #ff99ff"
 style_root = "bold red"
 format = "[$user]($style) "
 disabled = false
@@ -36,19 +36,19 @@ disabled = false
 [directory]
 truncation_length = 3
 truncate_to_repo = true
-format = "[$path]($style)[$read_only]($read_only_style) "
-style = "bold purple"
+format = "[◆](bold #d3ffff) [$path]($style)[$read_only]($read_only_style) "
+style = "bold #e0b3e5"
 read_only = " 🔒"
 read_only_style = "red"
 
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-"Videos" = " "
-"dotfiles" = " "
-"~" = " "
+# [directory.substitutions]
+# "Documents" = "󰈙 "
+# "Downloads" = " "
+# "Music" = " "
+# "Pictures" = " "
+# "Videos" = " "
+# "dotfiles" = " "
+# "~" = " "
 
 # ═══════════════════════════════════════════════════════════
 # 🔀 Git
@@ -56,8 +56,8 @@ read_only_style = "red"
 
 [git_branch]
 symbol = " "
-format = "on [$symbol$branch]($style) "
-style = "bold green"
+format = "[◆](bold #d3ffff)[$symbol$branch]($style) "
+style = "bold #edccf1"
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
