@@ -1,0 +1,172 @@
+# Starship Configuration
+# https://starship.rs/config/
+
+# ═══════════════════════════════════════════════════════════
+# 🎨 Format général
+# ═══════════════════════════════════════════════════════════
+
+format = """
+[╭─](bold blue)$username$hostname$directory$git_branch$git_status$git_state
+[╰─](bold blue)$character"""
+
+# Timeout pour les commandes
+command_timeout = 1000
+
+# ═══════════════════════════════════════════════════════════
+# 📁 Modules
+# ═══════════════════════════════════════════════════════════
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[✗](bold red)"
+vimcmd_symbol = "[←](bold green)"
+
+[username]
+style_user = "bold yellow"
+style_root = "bold red"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[@$hostname](bold cyan) "
+disabled = false
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "bold purple"
+read_only = " 🔒"
+read_only_style = "red"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Videos" = " "
+"dotfiles" = " "
+"~" = " "
+
+# ═══════════════════════════════════════════════════════════
+# 🔀 Git
+# ═══════════════════════════════════════════════════════════
+
+[git_branch]
+symbol = " "
+format = "on [$symbol$branch]($style) "
+style = "bold green"
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "bold yellow"
+conflicted = "🏳"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = "✓"
+untracked = "?${count}"
+stashed = "$${count}"
+modified = "!${count}"
+staged = "+${count}"
+renamed = "»${count}"
+deleted = "✘${count}"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+# ═══════════════════════════════════════════════════════════
+# 💻 Langages de programmation
+# ═══════════════════════════════════════════════════════════
+
+[nodejs]
+symbol = " "
+format = "via [$symbol($version )]($style)"
+style = "bold green"
+
+[python]
+symbol = " "
+format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style = "bold yellow"
+
+[rust]
+symbol = " "
+format = "via [$symbol($version )]($style)"
+style = "bold red"
+
+[golang]
+symbol = " "
+format = "via [$symbol($version )]($style)"
+style = "bold cyan"
+
+[java]
+symbol = " "
+format = "via [$symbol($version )]($style)"
+style = "bold red"
+
+[docker_context]
+symbol = " "
+format = "via [$symbol$context]($style) "
+style = "bold blue"
+
+[package]
+symbol = " "
+format = "via [$symbol$version]($style) "
+style = "bold cyan"
+
+# ═══════════════════════════════════════════════════════════
+# ⏱️  Temps d'exécution
+# ═══════════════════════════════════════════════════════════
+
+[cmd_duration]
+min_time = 500
+format = "took [$duration]($style) "
+style = "bold yellow"
+
+# ═══════════════════════════════════════════════════════════
+# 🕐 Heure
+# ═══════════════════════════════════════════════════════════
+
+[time]
+disabled = false
+format = '🕙[\[ $time \]]($style) '
+time_format = "%T"
+style = "bold white"
+
+# ═══════════════════════════════════════════════════════════
+# 🔋 Batterie
+# ═══════════════════════════════════════════════════════════
+
+[battery]
+full_symbol = "🔋"
+charging_symbol = "⚡"
+discharging_symbol = "💀"
+format = "[$symbol$percentage]($style) "
+
+[[battery.display]]
+threshold = 10
+style = "bold red"
+
+[[battery.display]]
+threshold = 30
+style = "bold yellow"
+
+# ═══════════════════════════════════════════════════════════
+# 🌐 Autres modules
+# ═══════════════════════════════════════════════════════════
+
+[memory_usage]
+disabled = true
+threshold = -1
+symbol = " "
+format = "via $symbol[$ram( | $swap)]($style) "
+style = "bold dimmed white"
+
+[status]
+disabled = false
+format = '[\[$symbol$status\]]($style) '
+symbol = "✖"
+style = "bold red"
