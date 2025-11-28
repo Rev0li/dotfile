@@ -132,21 +132,13 @@ fi
 # 🖥️  Installation de WezTerm
 # ─────────────────────────────────────────────
 
-print_header "Installation de WezTerm"
+print_header "Installation de WezTerm (portable, sans FUSE)"
 
 if ! command_exists wezterm; then
-    print_info "Téléchargement et installation de WezTerm..."
-    cd /tmp
-    
-    # Télécharger la dernière version AppImage
-    WEZTERM_VERSION=$(curl -s https://api.github.com/repos/wez/wezterm/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')
-    wget -q "https://github.com/wez/wezterm/releases/download/${WEZTERM_VERSION}/WezTerm-${WEZTERM_VERSION}-Ubuntu20.04.AppImage" -O wezterm.appimage
-    
-    # Installer dans ~/.local/bin
-    chmod +x wezterm.appimage
-    mv wezterm.appimage "$LOCAL_BIN/wezterm"
-    
-    print_success "WezTerm installé dans $LOCAL_BIN"
+    # Symlink
+    ln -sf "$DOTFILES_DIR/wezterm/wezterm" "$LOCAL_BIN/wezterm"
+
+    print_success "WezTerm installé en mode portable dans $DOTFILES_DIR"
 else
     print_success "WezTerm déjà installé"
 fi

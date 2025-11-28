@@ -1,5 +1,6 @@
--- WezTerm Configuration
--- https://wezfurlong.org/wezterm/
+-- ═══════════════════════════════════════════════════════════
+-- 🎨 WezTerm Configuration
+-- ═══════════════════════════════════════════════════════════
 
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
@@ -8,107 +9,216 @@ local config = wezterm.config_builder()
 -- 🎨 Apparence
 -- ═══════════════════════════════════════════════════════════
 
--- Thème Rose Pine Moon (pour correspondre avec Helix)
-config.color_scheme = 'rose-pine-moon'
+-- Thème
+config.color_scheme = 'Tokyo Night'
 
--- Police (JetBrains Mono Nerd Font)
-config.font = wezterm.font('JetBrainsMono Nerd Font', { weight = 'Regular' })
-config.font_size = 11.0
+-- Police
+config.font = wezterm.font('JetBrains Mono', { weight = 'Medium' })
+config.font_size = 12.0
 
--- Transparence et blur
-config.window_background_opacity = 0.95
-config.macos_window_background_blur = 20
-
--- Padding
+-- Fenêtre
 config.window_padding = {
-  left = 8,
-  right = 8,
-  top = 8,
-  bottom = 8,
+  left = 10,
+  right = 10,
+  top = 10,
+  bottom = 10,
 }
 
--- Désactiver la barre de titre native
-config.window_decorations = "RESIZE"
-
--- Tabs
+config.window_background_opacity = 1.0
 config.enable_tab_bar = true
+config.hide_tab_bar_if_only_one_tab = false
 config.use_fancy_tab_bar = false
-config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = false
 
+-- Couleurs personnalisées néon
+config.colors = {
+  cursor_bg = '#e0b3e5',
+  cursor_border = '#e0b3e5',
+  cursor_fg = '#1a1b26',
+  
+  selection_bg = '#b297b9',
+  selection_fg = '#ffffff',
+  
+  tab_bar = {
+    background = '#1a1b26',
+    active_tab = {
+      bg_color = '#b297b9',
+      fg_color = '#1a1b26',
+      intensity = 'Bold',
+    },
+    inactive_tab = {
+      bg_color = '#2a2b36',
+      fg_color = '#6b7089',
+    },
+    inactive_tab_hover = {
+      bg_color = '#3a3b46',
+      fg_color = '#b297b9',
+    },
+  },
+  
+  split = '#b297b9',
+}
+
+config.inactive_pane_hsb = {
+  saturation = 0.7,
+  brightness = 0.6,
+}
+
 -- ═══════════════════════════════════════════════════════════
--- ⌨️  Raccourcis clavier
+-- ⌨️  Raccourcis clavier (UNE SEULE TABLE)
 -- ═══════════════════════════════════════════════════════════
 
 config.keys = {
-  -- Splits
+  -- ═══════════════════════════════════════════════════════════
+  -- 🔀 SPLITS avec SUPER (touche Windows)
+  -- ═══════════════════════════════════════════════════════════
+  
+  -- Split HORIZONTAL (haut/bas)
   {
-    key = '|',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
-  },
-  {
-    key = '_',
-    mods = 'CTRL|SHIFT',
+    key = 'c',
+    mods = 'ALT',
     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
   },
   
-  -- Navigation entre les panes (comme Helix)
+  -- Split VERTICAL (gauche/droite)
+  {
+    key = 'e',
+    mods = 'ALT',
+    action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  
+  -- ═══════════════════════════════════════════════════════════
+  -- 🧭 NAVIGATION entre panes
+  -- ═══════════════════════════════════════════════════════════
+  
+  -- Vim style (hjkl)
   {
     key = 'h',
-    mods = 'CTRL|SHIFT',
+    mods = 'CTRL',
     action = wezterm.action.ActivatePaneDirection 'Left',
   },
   {
-    key = 'j',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivatePaneDirection 'Down',
+    key = 'l',
+    mods = 'CTRL',
+    action = wezterm.action.ActivatePaneDirection 'Right',
   },
   {
     key = 'k',
-    mods = 'CTRL|SHIFT',
+    mods = 'CTRL',
     action = wezterm.action.ActivatePaneDirection 'Up',
   },
   {
-    key = 'l',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivatePaneDirection 'Right',
+    key = 'j',
+    mods = 'CTRL',
+    action = wezterm.action.ActivatePaneDirection 'Down',
   },
   
-  -- Redimensionner les panes
+  -- Flèches (garde aussi CTRL|SHIFT pour compatibilité)
   {
     key = 'LeftArrow',
-    mods = 'CTRL|SHIFT',
+    mods = 'CTRL',
+    action = wezterm.action.ActivatePaneDirection 'Left',
+  },
+  {
+    key = 'RightArrow',
+    mods = 'CTRL',
+    action = wezterm.action.ActivatePaneDirection 'Right',
+  },
+  {
+    key = 'UpArrow',
+    mods = 'CTRL',
+    action = wezterm.action.ActivatePaneDirection 'Up',
+  },
+  {
+    key = 'DownArrow',
+    mods = 'CTRL',
+    action = wezterm.action.ActivatePaneDirection 'Down',
+  },
+  
+  -- ═══════════════════════════════════════════════════════════
+  -- 📏 REDIMENSIONNER les panes
+  -- ═══════════════════════════════════════════════════════════
+  
+  {
+    key = 'h',
+    mods = 'SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Left', 5 },
+  },
+  {
+    key = 'l',
+    mods = 'SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Right', 5 },
+  },
+  {
+    key = 'k',
+    mods = 'SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Up', 5 },
+  },
+  {
+    key = 'j',
+    mods = 'SHIFT|ALT',
+    action = wezterm.action.AdjustPaneSize { 'Down', 5 },
+  },
+  
+  -- Avec flèches aussi
+  {
+    key = 'LeftArrow',
+    mods = 'SHIFT|ALT',
     action = wezterm.action.AdjustPaneSize { 'Left', 5 },
   },
   {
     key = 'RightArrow',
-    mods = 'CTRL|SHIFT',
+    mods = 'SHIFT|ALT',
     action = wezterm.action.AdjustPaneSize { 'Right', 5 },
   },
   {
     key = 'UpArrow',
-    mods = 'CTRL|SHIFT',
+    mods = 'SHIFT|ALT',
     action = wezterm.action.AdjustPaneSize { 'Up', 5 },
   },
   {
     key = 'DownArrow',
-    mods = 'CTRL|SHIFT',
+    mods = 'SHIFT|ALT',
     action = wezterm.action.AdjustPaneSize { 'Down', 5 },
   },
   
-  -- Fermer le pane actuel
+  -- ═══════════════════════════════════════════════════════════
+  -- 🗑️  FERMER
+  -- ═══════════════════════════════════════════════════════════
+  
+  -- Fermer pane
+  {
+    key = 'w',
+    mods = 'SUPER',
+    action = wezterm.action.CloseCurrentPane { confirm = true },
+  },
   {
     key = 'w',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.CloseCurrentPane { confirm = true },
   },
   
+  -- ═══════════════════════════════════════════════════════════
+  -- 📑 TABS
+  -- ═══════════════════════════════════════════════════════════
+  
   -- Nouveau tab
+  {
+    key = 't',
+    mods = 'SUPER',
+    action = wezterm.action.SpawnTab 'CurrentPaneDomain',
+  },
   {
     key = 't',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
+  },
+  
+  -- Fermer tab
+  {
+    key = 'q',
+    mods = 'SUPER',
+    action = wezterm.action.CloseCurrentTab { confirm = true },
   },
   
   -- Navigation entre tabs
@@ -121,6 +231,87 @@ config.keys = {
     key = 'Tab',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateTabRelative(-1),
+  },
+  {
+    key = 'Tab',
+    mods = 'SUPER',
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
+    key = 'Tab',
+    mods = 'SUPER|SHIFT',
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
+  
+  -- Tabs par numéro (Super+1, Super+2, etc.)
+  {
+    key = '1',
+    mods = 'SUPER',
+    action = wezterm.action.ActivateTab(0),
+  },
+  {
+    key = '2',
+    mods = 'SUPER',
+    action = wezterm.action.ActivateTab(1),
+  },
+  {
+    key = '3',
+    mods = 'SUPER',
+    action = wezterm.action.ActivateTab(2),
+  },
+  {
+    key = '4',
+    mods = 'SUPER',
+    action = wezterm.action.ActivateTab(3),
+  },
+  {
+    key = '5',
+    mods = 'SUPER',
+    action = wezterm.action.ActivateTab(4),
+  },
+  
+  -- ═══════════════════════════════════════════════════════════
+  -- 🎯 UTILITAIRES
+  -- ═══════════════════════════════════════════════════════════
+  
+  -- Zoom sur pane
+  {
+    key = 'z',
+    mods = 'SUPER',
+    action = wezterm.action.TogglePaneZoomState,
+  },
+  
+  -- Recherche
+  {
+    key = 'f',
+    mods = 'SUPER',
+    action = wezterm.action.Search 'CurrentSelectionOrEmptyString',
+  },
+  
+  -- Copier/Coller
+  {
+    key = 'c',
+    mods = 'SUPER',
+    action = wezterm.action.CopyTo 'Clipboard',
+  },
+  {
+    key = 'v',
+    mods = 'SUPER',
+    action = wezterm.action.PasteFrom 'Clipboard',
+  },
+  
+  -- Recharger la config
+  {
+    key = 'r',
+    mods = 'SUPER',
+    action = wezterm.action.ReloadConfiguration,
+  },
+  
+  -- Launcher
+  {
+    key = 'p',
+    mods = 'SUPER',
+    action = wezterm.action.ShowLauncher,
   },
 }
 
