@@ -8,7 +8,18 @@
 # Fonction cd personnalisée avec affichage stylisé
 cd() {
     builtin cd "$@" || return
-    display_centered
+    display_tree_centered
+}
+
+# Fonction ls personnalisée avec affichage stylisé
+ls() {
+    # Si des arguments sont passés, utiliser le ls normal
+    if [[ $# -gt 0 ]]; then
+        command ls --color=auto "$@"
+    else
+        # Sinon, afficher avec notre style (sans clear)
+        display_tree_no_clear
+    fi
 }
 
 # Créer et aller dans un répertoire
@@ -30,6 +41,19 @@ function up() {
     done
     
     cd "$path"
+}
+
+# Raccourcis pour remonter (fonctions au lieu d'alias pour déclencher cd())
+function ..() {
+    cd ..
+}
+
+function ...() {
+    cd ../..
+}
+
+function ....() {
+    cd ../../..
 }
 
 ############################
@@ -66,6 +90,7 @@ function grep_files() {
     
     grep -r --include="*.$extension" "$pattern" . 2>/dev/null
 }
+
 
 ############################
 # 📦 Gestion des archives
