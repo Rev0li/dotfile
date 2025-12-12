@@ -82,7 +82,7 @@ config.keys = {
   
   -- Split VERTICAL (gauche/droite)
   {
-    key = 'e',
+    key = 'v',
     mods = 'ALT',
     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
@@ -91,28 +91,7 @@ config.keys = {
   -- 🧭 NAVIGATION entre panes
   -- ═══════════════════════════════════════════════════════════
   
-  -- Vim style (hjkl)
-  {
-    key = 'h',
-    mods = 'CTRL',
-    action = wezterm.action.ActivatePaneDirection 'Left',
-  },
-  {
-    key = 'l',
-    mods = 'CTRL',
-    action = wezterm.action.ActivatePaneDirection 'Right',
-  },
-  {
-    key = 'k',
-    mods = 'CTRL',
-    action = wezterm.action.ActivatePaneDirection 'Up',
-  },
-  {
-    key = 'j',
-    mods = 'CTRL',
-    action = wezterm.action.ActivatePaneDirection 'Down',
-  },
-  
+ 
   -- Flèches (garde aussi CTRL|SHIFT pour compatibilité)
   {
     key = 'LeftArrow',
@@ -138,27 +117,6 @@ config.keys = {
   -- ═══════════════════════════════════════════════════════════
   -- 📏 REDIMENSIONNER les panes
   -- ═══════════════════════════════════════════════════════════
-  
-  {
-    key = 'h',
-    mods = 'SHIFT|ALT',
-    action = wezterm.action.AdjustPaneSize { 'Left', 5 },
-  },
-  {
-    key = 'l',
-    mods = 'SHIFT|ALT',
-    action = wezterm.action.AdjustPaneSize { 'Right', 5 },
-  },
-  {
-    key = 'k',
-    mods = 'SHIFT|ALT',
-    action = wezterm.action.AdjustPaneSize { 'Up', 5 },
-  },
-  {
-    key = 'j',
-    mods = 'SHIFT|ALT',
-    action = wezterm.action.AdjustPaneSize { 'Down', 5 },
-  },
   
   -- Avec flèches aussi
   {
@@ -192,127 +150,17 @@ config.keys = {
     mods = 'SUPER',
     action = wezterm.action.CloseCurrentPane { confirm = true },
   },
-  {
-    key = 'w',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.CloseCurrentPane { confirm = true },
-  },
-  
   -- ═══════════════════════════════════════════════════════════
   -- 📑 TABS
   -- ═══════════════════════════════════════════════════════════
   
   -- Nouveau tab
   {
-    key = 't',
+    key = 'e',
     mods = 'SUPER',
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
   },
-  {
-    key = 't',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.SpawnTab 'CurrentPaneDomain',
-  },
   
-  -- Fermer tab
-  {
-    key = 'q',
-    mods = 'SUPER',
-    action = wezterm.action.CloseCurrentTab { confirm = true },
-  },
-  
-  -- Navigation entre tabs
-  {
-    key = 'Tab',
-    mods = 'CTRL',
-    action = wezterm.action.ActivateTabRelative(1),
-  },
-  {
-    key = 'Tab',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivateTabRelative(-1),
-  },
-  {
-    key = 'Tab',
-    mods = 'SUPER',
-    action = wezterm.action.ActivateTabRelative(1),
-  },
-  {
-    key = 'Tab',
-    mods = 'SUPER|SHIFT',
-    action = wezterm.action.ActivateTabRelative(-1),
-  },
-  
-  -- Tabs par numéro (Super+1, Super+2, etc.)
-  {
-    key = '1',
-    mods = 'SUPER',
-    action = wezterm.action.ActivateTab(0),
-  },
-  {
-    key = '2',
-    mods = 'SUPER',
-    action = wezterm.action.ActivateTab(1),
-  },
-  {
-    key = '3',
-    mods = 'SUPER',
-    action = wezterm.action.ActivateTab(2),
-  },
-  {
-    key = '4',
-    mods = 'SUPER',
-    action = wezterm.action.ActivateTab(3),
-  },
-  {
-    key = '5',
-    mods = 'SUPER',
-    action = wezterm.action.ActivateTab(4),
-  },
-  
-  -- ═══════════════════════════════════════════════════════════
-  -- 🎯 UTILITAIRES
-  -- ═══════════════════════════════════════════════════════════
-  
-  -- Zoom sur pane
-  {
-    key = 'z',
-    mods = 'SUPER',
-    action = wezterm.action.TogglePaneZoomState,
-  },
-  
-  -- Recherche
-  {
-    key = 'f',
-    mods = 'SUPER',
-    action = wezterm.action.Search 'CurrentSelectionOrEmptyString',
-  },
-  
-  -- Copier/Coller
-  {
-    key = 'c',
-    mods = 'SUPER',
-    action = wezterm.action.CopyTo 'Clipboard',
-  },
-  {
-    key = 'v',
-    mods = 'SUPER',
-    action = wezterm.action.PasteFrom 'Clipboard',
-  },
-  
-  -- Recharger la config
-  {
-    key = 'r',
-    mods = 'SUPER',
-    action = wezterm.action.ReloadConfiguration,
-  },
-  
-  -- Launcher
-  {
-    key = 'p',
-    mods = 'SUPER',
-    action = wezterm.action.ShowLauncher,
-  },
 }
 
 -- ═══════════════════════════════════════════════════════════
@@ -328,12 +176,12 @@ config.cursor_blink_rate = 500
 -- ═══════════════════════════════════════════════════════════
 
 config.audible_bell = "Disabled"
-config.visual_bell = {
+--[[ config.visual_bell = {
   fade_in_function = 'EaseIn',
   fade_in_duration_ms = 150,
   fade_out_function = 'EaseOut',
   fade_out_duration_ms = 150,
-}
+} --]]
 
 -- Scrollback
 config.scrollback_lines = 10000

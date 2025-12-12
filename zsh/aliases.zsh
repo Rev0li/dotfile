@@ -29,23 +29,13 @@ fi
 # ─────────────────────────────────────────────
 alias gs="git status"
 alias gd="git diff"
-alias ga="git add"
-alias gaa="git add --all"
-alias gc="git commit"
-alias gcm="git commit -m"
-alias gp="git push"
-alias gl="git pull"
-alias glog="git log --oneline --graph --decorate"
-alias gco="git checkout"
-alias gb="git branch"
-alias gba="git branch -a"
+alias ga="git add ."
+alias gc="git clone"
 
 # ─────────────────────────────────────────────
 # ⚙️ Système
 # ─────────────────────────────────────────────
 alias src="source ~/.zshrc"
-alias reload="source ~/.zshrc"
-alias cls="clear"
 alias c="clear"
 
 # Raccourcis système
@@ -53,36 +43,6 @@ alias h="history"
 alias j="jobs"
 alias ports="netstat -tuln"
 alias myip="curl -s ifconfig.me"
-
-# ─────────────────────────────────────────────
-# 🧰 Logiciels portables
-# ─────────────────────────────────────────────
-alias vi="$DOTFILES_DIR/nvim/nvim-linux64/bin/nvim"
-alias nvim="$DOTFILES_DIR/nvim/nvim-linux64/bin/nvim"
-alias vim="nvim"
-
-# Kitty (sans session car supprimée)
-if [ -f "$DOTFILES_DIR/kitty/kitty-linux64/bin/kitty" ]; then
-    alias kitty="$DOTFILES_DIR/kitty/kitty-linux64/bin/kitty"
-fi
-
-# ─────────────────────────────────────────────
-# 🔍 Développement
-# ─────────────────────────────────────────────
-# Valgrind
-alias vald="~/Documents/valgrind_breaker"
-alias valfull='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose'
-alias valfd='valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes'
-
-# Compilation C
-alias gcc-debug='gcc -Wall -Wextra -Werror -g'
-alias gcc-strict='gcc -Wall -Wextra -Werror -pedantic'
-
-# Make
-alias mk="make"
-alias mkc="make clean"
-alias mkf="make fclean"
-alias mkr="make re"
 
 # ─────────────────────────────────────────────
 # 🎯 Affichage et navigation
@@ -94,20 +54,6 @@ alias tree3='tree -L 3 --dirsfirst -C'
 # Luminosité (fonction brightness.sh)
 alias bright="lumos"
 alias br="lumos"
-
-# ─────────────────────────────────────────────
-# 🛠️ Édition rapide
-# ─────────────────────────────────────────────
-alias edit="edit_zsh"
-alias edit-aliases="edit_zsh aliases"
-alias edit-functions="edit_zsh functions"
-alias edit-styles="edit_zsh styles"
-alias edit-zsh="edit_zsh"
-
-# Édition rapide de fichiers courants
-alias zshrc="$EDITOR ~/.zshrc"
-alias vimrc="$EDITOR ~/.config/nvim/init.lua"
-alias kittyconf="$EDITOR ~/dotfiles/kitty/kitty.conf"
 
 # ─────────────────────────────────────────────
 # 📋 Utilitaires
