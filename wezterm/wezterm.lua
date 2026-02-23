@@ -65,8 +65,42 @@ config.inactive_pane_hsb = {
 }
 
 -- ═══════════════════════════════════════════════════════════
--- ⌨️  Raccourcis clavier (UNE SEULE TABLE)
+-- 📋 Palette de raccourcis (comme Space dans Helix)
 -- ═══════════════════════════════════════════════════════════
+wezterm.on('show-keybindings', function(window, pane)
+  window:perform_action(
+    wezterm.action.SplitPane {
+      direction = 'Right',
+      size = { Percent = 50 },
+      command = {
+        args = { '/usr/bin/zsh', '-c', [[cat << 'EOF'
+ ╔══════════════════════════════════════════════════════╗
+ ║              🎹  Raccourcis WezTerm                  ║
+ ╠══════════════════════════════════════════════════════╣
+ ║  SPLITS                                              ║
+ ║    ALT+c          → Split horizontal (haut/bas)      ║
+ ║    ALT+v          → Split vertical (gauche/droite)   ║
+ ╠══════════════════════════════════════════════════════╣
+ ║  NAVIGATION                                          ║
+ ║    CTRL+←↑↓→      → Changer de pane                  ║
+ ╠══════════════════════════════════════════════════════╣
+ ║  REDIMENSIONNER                                      ║
+ ║    SHIFT+ALT+←↑↓→ → Resize pane                      ║
+ ╠══════════════════════════════════════════════════════╣
+ ║  TABS                                                ║
+ ║    SUPER+e        → Nouveau tab                      ║
+ ║    SUPER+r        → Renommer le tab                  ║
+ ║    SUPER+w        → Fermer pane                      ║
+ ╠══════════════════════════════════════════════════════╣
+ ║  Appuie sur q ou ENTRÉE pour fermer                  ║
+ ╚══════════════════════════════════════════════════════╝
+EOF
+read -k1 key; exit]] },
+      },
+    },
+    pane
+  )
+end)
 
 config.keys = {
   -- ═══════════════════════════════════════════════════════════
@@ -160,7 +194,26 @@ config.keys = {
     mods = 'SUPER',
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
   },
-  
+  -- Renommer le tab
+  {
+    key = 'r',
+    mods = 'SUPER',
+    action = wezterm.action.PromptInputLine {
+      description = '✏️  Renommer le tab',
+      action = wezterm.action_callback(function(window, pane, line)
+        if line then
+          window:active_tab():set_title(line)
+        end
+      end),
+    },
+  },
+
+  -- Afficher les raccourcis
+  {
+    key = '/',
+    mods = 'SUPER',
+    action = wezterm.action.EmitEvent 'show-keybindings',
+  },
 }
 
 -- ═══════════════════════════════════════════════════════════
