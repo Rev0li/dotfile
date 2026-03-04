@@ -53,8 +53,6 @@ alias myip="curl -s ifconfig.me"
 # ═══════════════════════════════════════════════════════════
 
 alias dots="cd ~/dotfiles"
-alias dotfiles="cd ~/dotfiles"
-alias check-versions="$DOTFILES_DIR/bin/check-versions.sh"
 
 # Édition rapide des configs
 alias helix-conf="hx ~/dotfiles/helix/config.toml"
@@ -66,9 +64,9 @@ alias zsh-conf="hx ~/.zshrc"
 # 🎨 Thème dark / light
 # ═══════════════════════════════════════════════════════════
 
-alias dark="$DOTFILES_DIR/theme-toggle.sh dark"
-alias light="$DOTFILES_DIR/theme-toggle.sh light"
-alias theme="$DOTFILES_DIR/theme-toggle.sh"
+alias dark="$DOTFILES_DIR/script/theme-toggle.sh dark"
+alias light="$DOTFILES_DIR/script/theme-toggle.sh light"
+alias theme="$DOTFILES_DIR/script/theme-toggle.sh"
 
 # ═══════════════════════════════════════════════════════════
 # 🔍 Recherche
