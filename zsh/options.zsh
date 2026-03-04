@@ -37,8 +37,10 @@ setopt ALWAYS_TO_END              # curseur à la fin après complétion
 setopt MENU_COMPLETE              # insérer la première complétion immédiatement
 
 # ═══════════════════════════════════════════════════════════
-# 🔔 Comportement
+# 📂 Hook cd — affichage automatique après chaque changement de dossier
+# styles.zsh DOIT être sourcé avant ce fichier dans custom_zshrc.zsh
 # ═══════════════════════════════════════════════════════════
 
-setopt NO_BEEP                    # désactiver les bips
-setopt CORRECT                    # correction des commandes
+chpwd() {
+    display_tree_centered
+}

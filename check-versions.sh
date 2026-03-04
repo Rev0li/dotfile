@@ -4,7 +4,7 @@
 # Compare les versions installées avec les dernières releases
 # ═══════════════════════════════════════════════════════════
 
-set -e
+set -euo pipefail
 
 # Couleurs
 RED='\033[0;31m'
@@ -14,19 +14,21 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # ═══════════════════════════════════════════════════════════
 # 📦 Configuration des projets
 # ═══════════════════════════════════════════════════════════
 
 declare -A PROJECTS=(
     ["starship"]="starship-rs/starship"
-    ["helix"]="helix-editor/helix"
+    ["hx"]="helix-editor/helix"
     ["wezterm"]="wez/wezterm"
 )
 
 declare -A RELEASE_URLS=(
     ["starship"]="https://github.com/starship-rs/starship/releases"
-    ["helix"]="https://github.com/helix-editor/helix/releases"
+    ["hx"]="https://github.com/helix-editor/helix/releases"
     ["wezterm"]="https://github.com/wez/wezterm/releases"
 )
 
@@ -35,116 +37,98 @@ declare -A RELEASE_URLS=(
 # ═══════════════════════════════════════════════════════════
 
 print_header() {
+    echo ""
     echo -e "${BLUE}═══════════════════════════════════════════════${NC}"
     echo -e "${BLUE}  $1${NC}"
     echo -e "${BLUE}═══════════════════════════════════════════════${NC}"
 }
 
-print_success() {
-    echo -e "${GREEN}✓${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}⚠${NC} $1"
-}
-
-print_info() {
-    echo -e "${CYAN}→${NC} $1"
-}
-
-print_error() {
-    echo -e "${RED}✗${NC} $1"
-}
+ok()   { echo -e "${GREEN}✓${NC} $1"; }
+warn() { echo -e "${YELLOW}⚠${NC} $1"; }
+info() { echo -e "${CYAN}→${NC} $1"; }
+err()  { echo -e "${RED}✗${NC} $1"; }
 
 # Récupérer la dernière version depuis GitHub
 get_latest_version() {
     local repo="$1"
-    local version=$(curl -s "https://api.github.com/repos/${repo}/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")')
-    echo "$version"
+    curl -fsSL "https://api.github.com/repos/${repo}/releases/latest" \
+        | grep '"tag_name"' \
+        | sed -E 's/.*"tag_name": "([^"]+)".*/\1/'
 }
 
-# Récupérer la version installée
+# Récupérer la version installée (depuis dotfiles/bin/)
 get_installed_version() {
     local tool="$1"
-    
+    local bin_path="$DOTFILES_DIR/bin/$tool"
+
+    if [ ! -f "$bin_path" ]; then
+        echo "absent"
+        return
+    fi
+
     case "$tool" in
         "starship")
-            if command -v starship >/dev/null 2>&1; then
-                starship --version | grep -oP 'v[\d.]+'
-            else
-                echo "non installé"
-            fi
+            "$bin_path" --version 2>/dev/null | grep -oE 'v?[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "?"
             ;;
-        "helix")
-            if command -v hx >/dev/null 2>&1; then
-                hx --version | grep -oP 'helix \K[\d.]+'
-            else
-                echo "non installé"
-            fi
+        "hx")
+            "$bin_path" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1 || echo "?"
             ;;
         "wezterm")
-            if command -v wezterm >/dev/null 2>&1; then
-                wezterm --version | grep -oP '\d+\.\d+\.\d+'
-            else
-                echo "non installé"
-            fi
+            "$bin_path" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "?"
+            ;;
+        *)
+            echo "?"
             ;;
     esac
 }
 
-# Comparer les versions
-compare_versions() {
-    local installed="$1"
-    local latest="$2"
-    
-    if [[ "$installed" == "non installé" ]]; then
-        echo "missing"
-    elif [[ "$installed" == "$latest" ]]; then
-        echo "up-to-date"
-    else
-        echo "outdated"
-    fi
+# Normaliser la version pour comparaison (retirer le 'v' prefix)
+normalize() {
+    echo "$1" | sed 's/^v//'
 }
 
 # ═══════════════════════════════════════════════════════════
 # 🔍 Vérification des versions
 # ═══════════════════════════════════════════════════════════
 
-print_header "Vérification des versions"
-echo ""
-
-for tool in "${!PROJECTS[@]}"; do
+check_tool() {
+    local tool="$1"
     local repo="${PROJECTS[$tool]}"
     local release_url="${RELEASE_URLS[$tool]}"
-    
-    print_info "Vérification de ${tool}..."
-    
-    # Récupérer les versions
-    local installed=$(get_installed_version "$tool")
-    local latest=$(get_latest_version "$repo")
-    
-    # Comparer
-    local status=$(compare_versions "$installed" "$latest")
-    
-    # Affichage
+
+    info "Vérification de ${tool}..."
+
+    local installed
+    installed=$(get_installed_version "$tool")
+
+    local latest
+    latest=$(get_latest_version "$repo")
+
+    local installed_norm latest_norm
+    installed_norm=$(normalize "$installed")
+    latest_norm=$(normalize "$latest")
+
     echo -e "  Installé : ${CYAN}${installed}${NC}"
     echo -e "  Dernière : ${CYAN}${latest}${NC}"
-    
-    case "$status" in
-        "up-to-date")
-            print_success "${tool} est à jour !"
-            ;;
-        "outdated")
-            print_warning "${tool} peut être mis à jour"
-            echo -e "  ${BLUE}→${NC} Releases: ${release_url}"
-            ;;
-        "missing")
-            print_error "${tool} n'est pas installé"
-            echo -e "  ${BLUE}→${NC} Releases: ${release_url}"
-            ;;
-    esac
-    
+
+    if [[ "$installed" == "absent" ]]; then
+        err "${tool} absent de dotfiles/bin/"
+        echo -e "  ${BLUE}→${NC} Lancer : ${CYAN}./install.sh${NC}"
+    elif [[ "$installed_norm" == "$latest_norm" ]]; then
+        ok "${tool} est à jour !"
+    else
+        warn "${tool} peut être mis à jour"
+        echo -e "  ${BLUE}→${NC} Releases: ${release_url}"
+        echo -e "  ${BLUE}→${NC} Re-lancer : ${CYAN}rm $DOTFILES_DIR/bin/$tool && ./install.sh${NC}"
+    fi
+
     echo ""
+}
+
+print_header "Vérification des versions"
+
+for tool in "${!PROJECTS[@]}"; do
+    check_tool "$tool"
 done
 
 # ═══════════════════════════════════════════════════════════
@@ -152,10 +136,11 @@ done
 # ═══════════════════════════════════════════════════════════
 
 print_header "Liens utiles"
+
 echo ""
-echo -e "${BLUE}Starship:${NC}  https://github.com/starship-rs/starship/releases"
-echo -e "${BLUE}Helix:${NC}     https://github.com/helix-editor/helix/releases"
-echo -e "${BLUE}WezTerm:${NC}   https://github.com/wez/wezterm/releases"
+echo -e "${BLUE}Starship :${NC}  https://github.com/starship-rs/starship/releases"
+echo -e "${BLUE}Helix :${NC}    https://github.com/helix-editor/helix/releases"
+echo -e "${BLUE}WezTerm :${NC}  https://github.com/wez/wezterm/releases"
 echo ""
-print_info "Pour installer/mettre à jour, utilise install.sh ou install_42.sh"
+info "Pour mettre à jour un outil : supprimer son binaire dans bin/ puis relancer install.sh"
 echo ""

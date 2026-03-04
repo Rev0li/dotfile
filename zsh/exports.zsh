@@ -42,3 +42,6 @@ export LS_COLORS="di=1;96:fi=0;97:ln=1;93:ex=1;92:*.md=1;95:*.txt=0;94:*.json=1;
 
 # Activer les couleurs pour les commandes
 export CLICOLOR=1
+
+# Helix runtime
+export HELIX_RUNTIME="/home/okientzl/dotfiles/bin/helix-runtime/runtime"
