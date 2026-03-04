@@ -1,29 +1,12 @@
 #!/usr/bin/env zsh
 # 🛠️ Fonctions utilitaires
 
-############################
+# ═══════════════════════════════════════════════════════════
 # 📁 Navigation
-############################
+# ═══════════════════════════════════════════════════════════
 
-# Fonction cd personnalisée avec affichage stylisé
-cd() {
-    builtin cd "$@" || return
-    display_tree_centered
-}
-
-# Fonction ls personnalisée avec affichage stylisé
-ls() {
-    # Si des arguments sont passés, utiliser le ls normal
-    if [[ $# -gt 0 ]]; then
-        command ls --color=auto "$@"
-    else
-        # Sinon, afficher avec notre style (sans clear)
-        display_tree_no_clear
-    fi
-}
-
-# Créer et aller dans un répertoire
-function mkcd() {
+# Créer et entrer dans un répertoire
+mkcd() {
     if [[ -z "$1" ]]; then
         echo "Usage: mkcd <nom_du_repertoire>"
         return 1
@@ -32,7 +15,7 @@ function mkcd() {
 }
 
 # Remonter de plusieurs niveaux
-function up() {
+up() {
     local levels=${1:-1}
     local path=""
     
@@ -43,25 +26,17 @@ function up() {
     cd "$path"
 }
 
-# Raccourcis pour remonter (fonctions au lieu d'alias pour déclencher cd())
-function ..() {
-    cd ..
-}
+# Raccourcis pour remonter
+..() { cd .. }
+...() { cd ../.. }
+....() { cd ../../.. }
 
-function ...() {
-    cd ../..
-}
-
-function ....() {
-    cd ../../..
-}
-
-############################
+# ═══════════════════════════════════════════════════════════
 # 🔍 Recherche
-############################
+# ═══════════════════════════════════════════════════════════
 
 # Recherche rapide de fichiers
-function ff() {
+ff() {
     if [[ -z "$1" ]]; then
         echo "Usage: ff <motif_de_recherche>"
         return 1
@@ -70,18 +45,18 @@ function ff() {
 }
 
 # Recherche de dossiers
-function fd() {
+fdd() {
     if [[ -z "$1" ]]; then
-        echo "Usage: fd <motif_de_recherche>"
+        echo "Usage: fdd <motif_de_recherche>"
         return 1
     fi
     find . -type d -name "*$1*" 2>/dev/null
 }
 
 # Recherche dans le contenu des fichiers
-function grep_files() {
+grep-files() {
     if [[ -z "$1" ]]; then
-        echo "Usage: grep_files <motif> [extension]"
+        echo "Usage: grep-files <motif> [extension]"
         return 1
     fi
     
@@ -91,13 +66,12 @@ function grep_files() {
     grep -r --include="*.$extension" "$pattern" . 2>/dev/null
 }
 
-
-############################
+# ═══════════════════════════════════════════════════════════
 # 📦 Gestion des archives
-############################
+# ═══════════════════════════════════════════════════════════
 
 # Extraire différents types d'archives
-function extract() {
+extract() {
     if [[ -z "$1" ]]; then
         echo "Usage: extract <fichier_archive>"
         return 1
@@ -121,15 +95,12 @@ function extract() {
         *.zip)       unzip "$1"       ;;
         *.Z)         uncompress "$1"  ;;
         *.7z)        7z x "$1"        ;;
-        *.deb)       ar x "$1"        ;;
-        *.tar.lz)    tar xf "$1"      ;;
-        *.lz)        lzip -d "$1"     ;;
         *)           echo "Format non supporté: '$1'" ;;
     esac
 }
 
 # Créer une archive
-function archive() {
+archive() {
     if [[ $# -lt 2 ]]; then
         echo "Usage: archive <nom_archive.ext> <fichiers/dossiers...>"
         echo "Extensions supportées: .tar.gz, .tar.bz2, .tar.xz, .zip"
@@ -148,12 +119,12 @@ function archive() {
     esac
 }
 
-############################
+# ═══════════════════════════════════════════════════════════
 # 💻 Système et informations
-############################
+# ═══════════════════════════════════════════════════════════
 
 # Informations système rapides
-function sysinfo() {
+sysinfo() {
     echo "🖥️  Informations système:"
     echo "─────────────────────────"
     echo "OS: $(uname -s)"
@@ -166,7 +137,7 @@ function sysinfo() {
 }
 
 # Taille des dossiers
-function dirsize() {
+dirsize() {
     local target="${1:-.}"
     echo "📊 Taille des dossiers dans: $target"
     echo "─────────────────────────────────"
@@ -174,90 +145,25 @@ function dirsize() {
 }
 
 # Processus utilisant le plus de CPU/RAM
-function topproc() {
+topproc() {
     echo "🚀 Processus les plus gourmands:"
     echo "─────────────────────────────────"
     ps aux --sort=-%cpu | head -11
 }
 
-############################
+# ═══════════════════════════════════════════════════════════
 # 🌐 Réseau
-############################
+# ═══════════════════════════════════════════════════════════
 
 # Ping rapide
-function myping() {
+myping() {
     local host="${1:-google.com}"
     ping -c 4 "$host"
 }
 
 # Ports ouverts
-function ports() {
+open-ports() {
     echo "🔌 Ports en écoute:"
     echo "─────────────────"
     netstat -tuln 2>/dev/null || ss -tuln
 }
-
-############################
-# 🔧 Utilitaires divers
-############################
-
-# Calculatrice rapide
-function calc() {
-    if command -v bc >/dev/null 2>&1; then
-        echo "$*" | bc -l
-    else
-        echo "bc n'est pas installé"
-    fi
-}
-
-# Générer un mot de passe
-function genpass() {
-    local length="${1:-16}"
-    if command -v openssl >/dev/null 2>&1; then
-        openssl rand -base64 32 | tr -d "=+/" | cut -c1-"$length"
-    else
-        head /dev/urandom | tr -dc A-Za-z0-9 | head -c "$length"
-        echo
-    fi
-}
-
-# Météo (nécessite curl)
-function weather() {
-    local city="${1:-Paris}"
-    if command -v curl >/dev/null 2>&1; then
-        curl -s "wttr.in/$city?format=3"
-    else
-        echo "curl n'est pas installé"
-    fi
-}
-
-############################
-# 📝 Édition rapide
-############################
-
-# Éditer rapidement les fichiers de config zsh
-function edit_zsh() {
-    case "$1" in
-        "rc"|"")        $EDITOR ~/.zshrc ;;
-        "aliases")      $EDITOR "$ZSH_CONFIG_DIR/aliases.zsh" ;;
-        "functions")    $EDITOR "$ZSH_CONFIG_DIR/functions.zsh" ;;
-        "exports")      $EDITOR "$ZSH_CONFIG_DIR/exports.zsh" ;;
-        "styles")       $EDITOR "$ZSH_CONFIG_DIR/styles.zsh" ;;
-        "plugins")      $EDITOR "$ZSH_CONFIG_DIR/plugins.zsh" ;;
-        "local")        $EDITOR "$ZSH_CONFIG_DIR/local.zsh" ;;
-        *)              echo "Fichiers disponibles: rc, aliases, functions, exports, styles, plugins, local" ;;
-    esac
-}
-
-############################
-# 🎯 Alias de fonctions
-############################
-
-# Alias courts pour les fonctions les plus utilisées
-alias ..2='up 2'
-alias ..3='up 3'
-alias ..4='up 4'
-alias search='grep_files'
-alias info='sysinfo'
-alias size='dirsize'
-alias top='topproc'
