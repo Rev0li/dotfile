@@ -5,15 +5,12 @@
 # ─────────────────────────────────────────────
 # 📁 Configurations locales
 # ─────────────────────────────────────────────
-
 # Configuration locale (contient des secrets, tokens, etc.)
 zsh/local.zsh
 
 # ─────────────────────────────────────────────
 # 🗃️ Backups
 # ─────────────────────────────────────────────
-
-# Dossiers de backup créés par install.sh
 *_backup_*/
 backup_*/
 *.backup
@@ -21,7 +18,6 @@ backup_*/
 # ─────────────────────────────────────────────
 # 📝 Logs et temporaires
 # ─────────────────────────────────────────────
-
 *.log
 *.tmp
 *.temp
@@ -31,7 +27,6 @@ Thumbs.db
 # ─────────────────────────────────────────────
 # 🔧 Fichiers système
 # ─────────────────────────────────────────────
-
 .vscode/
 .idea/
 *.swp
@@ -39,16 +34,30 @@ Thumbs.db
 *~
 
 # ─────────────────────────────────────────────
-# 📦 Binaires téléchargés
+# 📦 Binaires téléchargés (bin/)
+# On ignore les binaires mais on garde les scripts .sh
 # ─────────────────────────────────────────────
+bin/starship
+bin/hx
+bin/wezterm
+bin/wezterm-gui
+bin/wezterm-mux-server
+bin/mdcat
+bin/clangd
 
-# Si tu mets des binaires dans bin/
-bin/*
+# Dossiers extraits (volumineux)
+bin/wezterm-app/
+bin/helix-runtime/
+
+# ─────────────────────────────────────────────
+# 🎨 Fichier d'état du thème (local à la machine)
+# ─────────────────────────────────────────────
+# Pas dans le repo — géré par theme-toggle.sh sur chaque machine
+# ~/.config/theme et ~/.config/theme-env sont hors du repo de toute façon
 
 # ─────────────────────────────────────────────
 # 🗂️ Archives
 # ─────────────────────────────────────────────
-
 *.zip
 *.tar.gz
 *.tar.xz
