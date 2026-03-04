@@ -1,40 +1,56 @@
-# ═══════════════════════════════════════════════
-# 🚫 Dotfiles .gitignore - Configuration propre
-# Stack: Wezterm + Starship + Helix + Zsh
-# ═══════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# 🚫 Fichiers et dossiers à ignorer
+# ═══════════════════════════════════════════════════════════
 
 # ─────────────────────────────────────────────
-# 📦 Anciennes configurations
+# 📁 Configurations locales
 # ─────────────────────────────────────────────
-Old/
 
-# ─────────────────────────────────────────────
-# 🗑️ Caches et fichiers temporaires
-# ─────────────────────────────────────────────
-# Helix
-helix/runtime/
-
-# Zsh
-zsh/.zcompdump*
-zsh/.zsh_history
+# Configuration locale (contient des secrets, tokens, etc.)
 zsh/local.zsh
 
 # ─────────────────────────────────────────────
-# 🖥️ Fichiers système spécifiques
+# 🗃️ Backups
 # ─────────────────────────────────────────────
+
+# Dossiers de backup créés par install.sh
+*_backup_*/
+backup_*/
+*.backup
+
+# ─────────────────────────────────────────────
+# 📝 Logs et temporaires
+# ─────────────────────────────────────────────
+
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# ─────────────────────────────────────────────
+# 🔧 Fichiers système
+# ─────────────────────────────────────────────
+
+.vscode/
+.idea/
 *.swp
 *.swo
 *~
-.DS_Store
 
 # ─────────────────────────────────────────────
-# 🔐 Secrets et configurations locales
+# 📦 Binaires téléchargés
 # ─────────────────────────────────────────────
-*.env
-*.local
-.secrets
+
+# Si tu mets des binaires dans bin/
+bin/*
 
 # ─────────────────────────────────────────────
-# 📝 Autres
+# 🗂️ Archives
 # ─────────────────────────────────────────────
-*.log
+
+*.zip
+*.tar.gz
+*.tar.xz
+*.deb
+*.rpm

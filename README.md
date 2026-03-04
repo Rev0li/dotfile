@@ -1,206 +1,252 @@
-# 🚀 Dotfiles - Configuration moderne pour développeurs
+# 🚀 Dotfiles - Configuration refactorisée
 
-Configuration personnalisée pour un environnement de développement moderne et efficace.
+Configuration épurée pour Helix, Starship et WezTerm.
 
 ## 📦 Stack
 
-- **🖥️ WezTerm** - Terminal émulateur GPU-accelerated moderne
-- **⭐ Starship** - Prompt shell minimaliste et rapide
-- **✏️ Helix** - Éditeur de texte modal post-moderne
-- **🐚 Zsh** - Shell avec configurations personnalisées
+- **🖥️ WezTerm** - Terminal émulateur
+- **⭐ Starship** - Prompt shell
+- **✏️ Helix** - Éditeur de texte modal
+- **🐚 Zsh** - Shell avec configuration modulaire
 
-## ✨ Fonctionnalités
-
-### WezTerm
-- Thème Rose Pine Moon (cohérent avec Helix)
-- Navigation entre panes avec `Ctrl+Shift+hjkl`
-- Splits horizontaux/verticaux
-- Transparence et blur
-- Configuration Lua moderne
-
-### Starship
-- Prompt élégant et informatif
-- Affichage Git intelligent
-- Icônes pour langages de programmation
-- Temps d'exécution des commandes
-- Configuration personnalisable
-
-### Helix
-- Thème Rose Pine Moon
-- Numéros de ligne relatifs
-- LSP activé avec inlay hints
-- Navigation entre fenêtres avec `Ctrl+hjkl`
-- Configuration minimaliste
-
-### Zsh
-- Aliases personnalisés
-- Fonctions utilitaires
-- Plugins optimisés
-- Styles et options configurés
-
-## 🔧 Installation
-
-### Installation automatique
+## ⚡ Installation rapide
 
 ```bash
+# 1. Cloner/copier dans ~/dotfiles
+cd ~
+cp -r dotfiles ~/dotfiles  # ou git clone si repo
+
+# 2. Installer les symlinks
 cd ~/dotfiles
 chmod +x install.sh
 ./install.sh
-```
 
-Le script d'installation va :
-1. ✅ Détecter votre gestionnaire de paquets (apt/pacman/dnf)
-2. ✅ Installer les dépendances nécessaires
-3. ✅ Installer WezTerm, Starship et Helix
-4. ✅ Installer JetBrains Mono Nerd Font
-5. ✅ Créer les symlinks de configuration
-6. ✅ Sauvegarder vos anciennes configurations
-
-### Installation manuelle
-
-Si vous préférez installer manuellement :
-
-```bash
-# 1. Installer les outils
-# Voir les commandes spécifiques à votre distribution dans install.sh
-
-# 2. Créer les symlinks
-ln -sf ~/dotfiles/zsh/custom_zshrc.zsh ~/.zshrc
-ln -sf ~/dotfiles/helix ~/.config/helix
-ln -sf ~/dotfiles/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua
-
-# 3. Recharger Zsh
+# 3. Recharger
 exec zsh
+
+# 4. Vérifier
+./bin/doctor.sh
 ```
 
 ## 📁 Structure
 
 ```
 dotfiles/
-├── helix/              # Configuration Helix
+├── bin/                    # Scripts utilitaires
+│   ├── check-versions.sh   # Vérifier versions
+│   ├── doctor.sh           # Diagnostic
+│   └── releases.txt        # Liens GitHub
+├── helix/                  # Config Helix
 │   └── config.toml
-├── starship/           # Configuration Starship
+├── starship/               # Config Starship
 │   └── starship.toml
-├── wezterm/            # Configuration WezTerm
+├── wezterm/                # Config WezTerm
 │   └── wezterm.lua
-├── zsh/                # Configuration Zsh
+├── zsh/                    # Config Zsh
+│   ├── zshrc
 │   ├── aliases.zsh
-│   ├── custom_zshrc.zsh
 │   ├── exports.zsh
 │   ├── functions.zsh
 │   ├── options.zsh
-│   ├── plugins.zsh
-│   └── styles.zsh
-├── Old/                # Anciennes configurations (kitty, nvim, OhMyPosh)
-└── install.sh          # Script d'installation
+│   └── local.zsh.template
+├── install.sh              # Installation standard
+├── install_42.sh           # Installation 42 (sans sudo)
+├── .gitignore
+└── README.md
+```
+
+## 🛠️ Installation des outils
+
+Les outils doivent être installés séparément (install.sh crée uniquement des symlinks).
+
+### Starship
+```bash
+curl -sS https://starship.rs/install.sh | sh
+```
+
+### Helix
+```bash
+# Voir https://github.com/helix-editor/helix/releases
+# Ubuntu: télécharger le .tar.xz
+cd /tmp
+VERSION=$(curl -s https://api.github.com/repos/helix-editor/helix/releases/latest | grep tag_name | cut -d'"' -f4)
+wget "https://github.com/helix-editor/helix/releases/download/${VERSION}/helix-${VERSION}-x86_64-linux.tar.xz"
+tar -xf "helix-${VERSION}-x86_64-linux.tar.xz"
+sudo mv "helix-${VERSION}-x86_64-linux" /opt/helix
+sudo ln -sf /opt/helix/hx /usr/local/bin/hx
+```
+
+### WezTerm
+```bash
+# Voir https://github.com/wez/wezterm/releases
+# Ubuntu: installer le .deb
+```
+
+### Nerd Font
+```bash
+cd /tmp
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip
+unzip JetBrainsMono.zip -d ~/.local/share/fonts/
+fc-cache -fv
+```
+
+## 🏫 Installation pour 42 (sans sudo)
+
+```bash
+chmod +x install_42.sh
+./install_42.sh
+# Suivre les instructions affichées
+```
+
+## 🔍 Scripts utilitaires
+
+```bash
+# Vérifier les versions vs dernières releases
+./bin/check-versions.sh
+
+# Diagnostic complet de l'environnement
+./bin/doctor.sh
+
+# Voir les liens de téléchargement
+cat bin/releases.txt
 ```
 
 ## ⌨️ Raccourcis clavier
 
 ### WezTerm
-
 | Raccourci | Action |
 |-----------|--------|
-| `Ctrl+Shift+\|` | Split horizontal |
-| `Ctrl+Shift+_` | Split vertical |
-| `Ctrl+Shift+h/j/k/l` | Navigation entre panes |
-| `Ctrl+Shift+←/→/↑/↓` | Redimensionner panes |
-| `Ctrl+Shift+w` | Fermer pane |
-| `Ctrl+Shift+t` | Nouveau tab |
-| `Ctrl+Tab` | Tab suivant |
-| `Ctrl+Shift+Tab` | Tab précédent |
+| `Alt+v` | Split vertical |
+| `Alt+c` | Split horizontal |
+| `Ctrl+←→↑↓` | Naviguer entre panes |
+| `Shift+Alt+←→↑↓` | Redimensionner |
+| `Super+w` | Fermer pane |
+| `Super+e` | Nouveau tab |
+| `Super+/` | Aide |
 
 ### Helix
-
 | Raccourci | Action |
 |-----------|--------|
-| `Ctrl+h/j/k/l` | Navigation entre fenêtres |
+| `Alt+←→↑↓` | Naviguer entre fenêtres |
 | `Space+f` | Ouvrir fichier |
-| `Space+b` | Liste des buffers |
+| `Space+b` | Buffers |
 | `:w` | Sauvegarder |
 | `:q` | Quitter |
 
-Voir la [documentation Helix](https://docs.helix-editor.com/) pour plus de raccourcis.
+[Doc complète](https://docs.helix-editor.com/)
 
-## 🎨 Personnalisation
+## 🎨 Alias utiles
+
+```bash
+# Navigation
+dots              # cd ~/dotfiles
+
+# Édition configs
+helix-conf        # Éditer config Helix
+starship-conf     # Éditer config Starship
+wezterm-conf      # Éditer config WezTerm
+zsh-conf          # Éditer .zshrc
+
+# Vérification
+check-versions    # Vérifier versions outils
+
+# Git
+gs                # git status
+gd                # git diff
+ga                # git add .
+gc                # git commit
+```
+
+Voir tous les alias : `cat ~/dotfiles/zsh/aliases.zsh`
+
+## 🎯 Personnalisation
 
 ### Changer le thème
 
 **Helix** (`helix/config.toml`) :
 ```toml
-theme = "rose_pine_moon"  # Changer ici
+theme = "rose_pine_moon"  # ou catppuccin_mocha, tokyonight, gruvbox...
 ```
 
 **WezTerm** (`wezterm/wezterm.lua`) :
 ```lua
-config.color_scheme = 'rose-pine-moon'  -- Changer ici
+config.color_scheme = 'Tokyo Night'  -- ou rose-pine-moon...
 ```
 
-**Starship** (`starship/starship.toml`) :
-Modifier les couleurs dans chaque section `style = "bold color"`
-
-### Ajouter des aliases Zsh
+### Ajouter des alias
 
 Éditer `zsh/aliases.zsh` :
 ```bash
 alias mon_alias="ma_commande"
 ```
 
-## 🔄 Mise à jour
+### Configuration locale (non versionnée)
 
 ```bash
-cd ~/dotfiles
-git pull
-source ~/.zshrc  # Recharger Zsh
+# Créer depuis le template
+cp zsh/local.zsh.template zsh/local.zsh
+# Éditer avec tes configs spécifiques (tokens, proxys, etc.)
+hx zsh/local.zsh
 ```
 
-## 🐛 Dépannage
+## 🔧 Dépannage
 
 ### Starship ne s'affiche pas
 ```bash
-# Vérifier que Starship est installé
 which starship
-
-# Réinstaller si nécessaire
 curl -sS https://starship.rs/install.sh | sh
+source ~/.zshrc
 ```
 
-### WezTerm ne trouve pas la config
+### Icônes cassées (□□□)
 ```bash
-# Vérifier le symlink
-ls -la ~/.config/wezterm/wezterm.lua
-
-# Recréer si nécessaire
-ln -sf ~/dotfiles/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua
+# Installer JetBrains Mono Nerd Font (voir ci-dessus)
+fc-cache -fv
 ```
 
-### Helix : LSP ne fonctionne pas
+### Helix : commande non trouvée
 ```bash
-# Installer les language servers nécessaires
-# Exemple pour Rust :
-rustup component add rust-analyzer
+which hx
+echo $PATH
+# Réinstaller Helix (voir ci-dessus)
+```
 
-# Exemple pour Python :
-pip install python-lsp-server
+### Diagnostic complet
+```bash
+./bin/doctor.sh
 ```
 
 ## 📚 Ressources
 
-- [WezTerm Documentation](https://wezfurlong.org/wezterm/)
-- [Starship Documentation](https://starship.rs/)
-- [Helix Documentation](https://docs.helix-editor.com/)
-- [Zsh Documentation](https://zsh.sourceforge.io/Doc/)
+- [WezTerm](https://wezfurlong.org/wezterm/)
+- [Starship](https://starship.rs/)
+- [Helix](https://docs.helix-editor.com/)
+- [Zsh](https://zsh.sourceforge.io/Doc/)
+
+## 🆕 Nouveautés de cette version
+
+### ✨ Ajouté
+- Dossier `bin/` avec scripts de vérification
+- Template `local.zsh` pour configs non versionnées
+- `.gitignore`
+
+### 🔄 Modifié
+- `install.sh` simplifié (symlinks only)
+- EDITOR changé de nvim à hx
+- Configs Zsh réorganisées
+
+### ❌ Supprimé
+- Références à nvim (non utilisé)
+- Doublons de code
+- Fonctions complexes peu utilisées
 
 ## 📝 Notes
 
-- Les anciennes configurations (Kitty, Neovim, Oh My Posh) sont dans le dossier `Old/`
-- La police JetBrains Mono Nerd Font est requise pour l'affichage des icônes
-- Zsh est conservé car Starship est un prompt, pas un shell
+- Les outils (Starship, Helix, WezTerm) doivent être installés manuellement
+- `install.sh` crée uniquement des symlinks
+- JetBrains Mono Nerd Font requis pour les icônes
+- Zsh requis (Starship est un prompt, pas un shell)
 
-## 🤝 Contribution
+---
 
-N'hésitez pas à proposer des améliorations via des pull requests !
-
-## 📄 Licence
-
-Configuration personnelle - Utilisez librement et adaptez à vos besoins.
+**Bon développement ! 🚀**
