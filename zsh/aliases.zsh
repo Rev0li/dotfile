@@ -63,6 +63,14 @@ alias wezterm-conf="hx ~/dotfiles/wezterm/wezterm.lua"
 alias zsh-conf="hx ~/.zshrc"
 
 # ═══════════════════════════════════════════════════════════
+# 🎨 Thème dark / light
+# ═══════════════════════════════════════════════════════════
+
+alias dark="$DOTFILES_DIR/theme-toggle.sh dark"
+alias light="$DOTFILES_DIR/theme-toggle.sh light"
+alias theme="$DOTFILES_DIR/theme-toggle.sh"
+
+# ═══════════════════════════════════════════════════════════
 # 🔍 Recherche
 # ═══════════════════════════════════════════════════════════
 

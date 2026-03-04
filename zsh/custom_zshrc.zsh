@@ -48,3 +48,6 @@ fi
 
 # FZF si installé
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Thème actif (dark/light) — géré par theme-toggle.sh
+[ -f "$HOME/.config/theme-env" ] && source "$HOME/.config/theme-env"
