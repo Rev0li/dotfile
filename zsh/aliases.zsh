@@ -59,7 +59,7 @@ alias helix-conf="hx ~/dotfiles/helix/config.toml"
 alias starship-conf="hx ~/dotfiles/starship/starship.toml"
 alias wezterm-conf="hx ~/dotfiles/wezterm/wezterm.lua"
 alias zsh-conf="hx ~/.zshrc"
-
+alias clangd-init="$DOTFILES_DIR/script/clangd-init.sh"
 # ═══════════════════════════════════════════════════════════
 # 🎨 Thème dark / light
 # ═══════════════════════════════════════════════════════════
