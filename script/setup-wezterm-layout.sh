@@ -153,17 +153,6 @@ ok "Nom    : $SHORTCUT_NAME"
 ok "Cmd    : $SHORTCUT_CMD"
 ok "Touche : Super + E"
 
-# ── Layout WezTerm ──────────────────────────────────────
-if command -v gsettings &>/dev/null; then
-    info "Configuration du shortcut WezTerm..."
-    chmod +x "$DOTFILES_DIR/script/wezterm-launcher.sh"
-    chmod +x "$DOTFILES_DIR/script/setup-wezterm-layout.sh"
-    
-    # Créer le shortcut
-    "$DOTFILES_DIR/script/setup-wezterm-layout.sh" || warn "Shortcut WezTerm non créé"
-else
-    skip "Shortcut GNOME (pas de gsettings)"
-fi
 
 # ═══════════════════════════════════════════════════════════
 # ✅ Résumé

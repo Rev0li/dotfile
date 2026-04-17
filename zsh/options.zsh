@@ -27,6 +27,18 @@ setopt EXTENDED_HISTORY           # horodatage dans l'historique
 
 bindkey -v                        # Mode vi/vim
 
+# Flèches explicitement liées en mode insert ET normal
+# Sans ça, bindkey -v laisse les flèches non définies en vi-normal
+# ce qui cause des suppressions de caractères inattendues
+bindkey -M viins '^[[A' up-line-or-history
+bindkey -M viins '^[[B' down-line-or-history
+bindkey -M viins '^[[C' forward-char
+bindkey -M viins '^[[D' backward-char
+bindkey -M vicmd '^[[A' up-line-or-history
+bindkey -M vicmd '^[[B' down-line-or-history
+bindkey -M vicmd '^[[C' forward-char
+bindkey -M vicmd '^[[D' backward-char
+
 # ═══════════════════════════════════════════════════════════
 # 🎯 Complétion
 # ═══════════════════════════════════════════════════════════

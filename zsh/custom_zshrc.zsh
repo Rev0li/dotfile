@@ -35,7 +35,7 @@ compinit
 
 # Starship (DOIT être en dernier)
 if command -v starship &> /dev/null; then
-  export STARSHIP_CONFIG="$DOTFILES_DIR/starship/starship.toml"
+  export STARSHIP_CONFIG="$DOTFILES_DIR/starship/starship-dark.toml"
   eval "$(starship init zsh)"
 fi
 
