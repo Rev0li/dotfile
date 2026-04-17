@@ -86,9 +86,13 @@ config.font = wezterm.font('JetBrains Mono', { weight = 'Medium' })
 config.font_size = 12.0
 
 -- ═══════════════════════════════════════════════════════════
--- 🪟 Fenêtre
+-- 🪟 Fenêtre — FULLSCREEN + Layout
 -- ═══════════════════════════════════════════════════════════
 
+-- ✅ Démarrer en fullscreen
+config.initial_window_state = 'Maximized'
+
+-- ✅ Padding
 config.window_padding = {
   left = 10, right = 10, top = 10, bottom = 10,
 }
@@ -103,6 +107,23 @@ config.inactive_pane_hsb = {
   saturation = 0.7,
   brightness = 0.6,
 }
+
+-- ═══════════════════════════════════════════════════════════
+-- 🚀 Layout au démarrage — 3 panes automatiques
+-- ═══════════════════════════════════════════════════════════
+
+wezterm.on('gui-startup', function(cmd)
+  local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+  
+  -- Split 1 : Horizontal → 60% TOP + 40% BAS
+  local pane_bottom = pane:split { direction = 'Bottom', size = 0.4 }
+  
+  -- Split 2 : Vertical sur le BAS → 30% LEFT + 70% RIGHT
+  local pane_bottom_right = pane_bottom:split { direction = 'Right', size = 0.3 }
+  
+  -- Maximiser la fenêtre
+  window:gui_window():maximize()
+end)
 
 -- ═══════════════════════════════════════════════════════════
 -- 📋 Palette de raccourcis (comme Space dans Helix)
