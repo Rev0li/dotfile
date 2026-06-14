@@ -25,7 +25,7 @@ cd ~/dotfiles
 
 - Vérifie les dépendances (`zsh`, `curl`, `tar`, `git`, `unzip`, `fc-cache`)
 - Crée les symlinks de configuration
-- Télécharge et installe les binaires dans `bin/` (starship, hx, wezterm)
+- Télécharge et installe les binaires dans `bin/` (starship, hx, wezterm, eza)
 - Installe la police Monaspace Neon dans `~/.local/share/fonts/`
 - Expose les binaires via `~/.local/bin/`
 
@@ -37,6 +37,10 @@ cd ~/dotfiles
 Le détail de l'architecture — structure des fichiers, ordre de chargement des
 modules zsh, système de thème, gestion des binaires et raccourcis WezTerm — est
 documenté dans **[CLAUDE.md](CLAUDE.md)**, la source de vérité unique.
+
+### Documentation
+- [CLAUDE.md](CLAUDE.md) — architecture détaillée (source de vérité)
+- [docs/](docs/) — rapports d'audit datés (forme / navigabilité)
 
 ## Thèmes
 
@@ -65,7 +69,7 @@ myip            # IP publique
 ports           # ports en écoute (ss -tuln)
 
 # Git
-gs gd ga gc gp gl gco gb gcb gst
+gs gd ga gc gp gl gco gb
 ```
 
 ## Mise à jour des binaires

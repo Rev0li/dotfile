@@ -11,8 +11,11 @@ Portable development environment for Linux/Ubuntu and sudo-less environments (42
 ```bash
 ./install.sh                   # Full setup: symlinks + binary downloads
 ./script/check-versions.sh     # Compare installed vs latest GitHub releases
+./script/doctor.sh             # Full environment diagnostic
 ./script/theme-toggle.sh       # Toggle dark/light (or pass "dark"/"light")
 ./script/clangd-init.sh        # Initialize clangd for a C/C++ project
+./script/shortcut.sh           # Register GNOME keybinding Super+E → WezTerm
+./script/wezterm-help.sh       # Print WezTerm cheatsheet (bottom-left pane; q to quit)
 ```
 
 To update a binary: delete `bin/<tool>` then re-run `./install.sh`.
