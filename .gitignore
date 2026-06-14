@@ -36,20 +36,11 @@ pulse/
 *~
 
 # ─────────────────────────────────────────────
-# 📦 Binaires téléchargés (bin/)
-# On ignore les binaires mais on garde les scripts .sh
+# 📦 Binaires téléchargés (bin/) — recréés par install.sh
+# Tout le contenu de bin/ est ignoré (binaires + dossiers extraits) ;
+# le dossier est recréé par install.sh (mkdir -p).
 # ─────────────────────────────────────────────
-bin/starship
-bin/hx
-bin/wezterm
-bin/wezterm-gui
-bin/wezterm-mux-server
-bin/mdcat
-bin/clangd
-
-# Dossiers extraits (volumineux)
-bin/wezterm-app/
-bin/helix-runtime/
+bin/*
 
 # ─────────────────────────────────────────────
 # 🎨 Fichier d'état du thème (local à la machine)
