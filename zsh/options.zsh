@@ -24,8 +24,4 @@ setopt COMPLETE_IN_WORD
 setopt ALWAYS_TO_END
 setopt MENU_COMPLETE
 
-# ── Hook cd ─────────────────────────────────────────────────
-
-chpwd() {
-    eza --tree --level=1 --icons --group-directories-first --color=always 2>/dev/null || ls
-}
+# Note : le hook `chpwd` (arborescence à chaque cd) est défini dans functions.zsh.

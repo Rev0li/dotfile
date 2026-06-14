@@ -35,6 +35,9 @@ WEZTERM_REPO="wez/wezterm"
 MONASPACE_REPO="githubnext/monaspace"
 EZA_REPO="eza-community/eza"
 
+# Helpers partagés avec check-versions.sh (normalize, latest_release, installed_version)
+source "$DOTFILES_DIR/script/lib.sh"
+
 # ═══════════════════════════════════════════════════════════
 # Fonctions utilitaires
 # ═══════════════════════════════════════════════════════════
@@ -69,31 +72,8 @@ link() {
     ok "$(basename "$dst") → $src"
 }
 
-# Dernière release GitHub
-latest_release() {
-    curl -fsLS "https://api.github.com/repos/$1/releases/latest" 2>/dev/null \
-        | grep '"tag_name"' \
-        | sed -E 's/.*"tag_name": "([^"]+)".*/\1/' \
-        || echo ""
-}
-
 # Binaire présent et exécutable dans bin/
 bin_ok() { [ -f "$BIN_DIR/$1" ] && [ -x "$BIN_DIR/$1" ]; }
-
-# Retirer le préfixe 'v' pour comparer
-normalize() { echo "$1" | sed 's/^v//'; }
-
-# Version installée du binaire
-installed_version() {
-    local bin="$BIN_DIR/$1"
-    case "$1" in
-        starship) "$bin" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 ;;
-        hx)       "$bin" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1 ;;
-        wezterm)  "$bin" --version 2>/dev/null | awk 'NR==1{print $NF}' ;;
-        eza)      "$bin" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 ;;
-        *)        echo "?" ;;
-    esac
-}
 
 # ═══════════════════════════════════════════════════════════
 # Fonctions d'installation

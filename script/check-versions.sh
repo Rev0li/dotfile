@@ -11,39 +11,25 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BIN_DIR="$DOTFILES_DIR/bin"
+
+# Helpers partagés avec install.sh (normalize, latest_release, installed_version)
+source "$DOTFILES_DIR/script/lib.sh"
 
 declare -A REPOS=(
     ["starship"]="starship/starship"
     ["hx"]="helix-editor/helix"
     ["wezterm"]="wez/wezterm"
+    ["eza"]="eza-community/eza"
 )
-
-normalize() { echo "$1" | sed 's/^v//'; }
-
-latest_release() {
-    curl -fsLS "https://api.github.com/repos/$1/releases/latest" 2>/dev/null \
-        | grep '"tag_name"' \
-        | sed -E 's/.*"tag_name": "([^"]+)".*/\1/' \
-    || echo "?"
-}
-
-installed_version() {
-    local bin="$DOTFILES_DIR/bin/$1"
-    [ -f "$bin" ] || { echo "absent"; return; }
-    case "$1" in
-        starship) "$bin" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 ;;
-        hx)       "$bin" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1 ;;
-        wezterm)  "$bin" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 ;;
-        *)        echo "?" ;;
-    esac
-}
 
 UPDATES=0
 
 echo ""
-for tool in starship hx wezterm; do
+for tool in starship hx wezterm eza; do
     installed=$(installed_version "$tool")
     latest=$(latest_release "${REPOS[$tool]}")
+    latest=${latest:-?}
 
     if [[ "$installed" == "absent" ]]; then
         printf "  ${RED}✗${NC} %-10s  absent → %s\n" "$tool" "$latest"
