@@ -32,34 +32,11 @@ cd ~/dotfiles
 > **Sans `sudo` (42, machines partagées) :** fonctionne nativement.
 > WezTerm est téléchargé en AppImage — pas besoin de `libfuse2`.
 
-## Structure
+## Architecture
 
-```
-dotfiles/
-├── bin/                     # Binaires téléchargés (gitignorés)
-├── helix/
-│   ├── config.toml          # Config Helix (thème, LSP, raccourcis)
-│   └── languages.toml       # Surcharges LSP par langage
-├── script/
-│   ├── check-versions.sh    # Vérifie les mises à jour disponibles
-│   ├── clangd-init.sh       # Initialise clangd pour un projet C/C++
-│   ├── doctor.sh            # Diagnostic complet de l'environnement
-│   └── theme-toggle.sh      # Switch dark / light
-├── starship/
-│   ├── starship-dark.toml   # Prompt thème sombre
-│   └── starship-light.toml  # Prompt thème clair
-├── wezterm/
-│   └── wezterm.lua          # Config WezTerm (thème, raccourcis, splits)
-├── zsh/
-│   ├── custom_zshrc.zsh     # Point d'entrée (symlinké → ~/.zshrc)
-│   ├── exports.zsh          # Variables d'environnement
-│   ├── plugins.zsh          # Oh My Zsh plugins
-│   ├── styles.zsh           # Personnalisations visuelles
-│   ├── options.zsh          # Comportement du shell (history, chpwd…)
-│   ├── aliases.zsh          # Aliases
-│   └── functions.zsh        # Fonctions utilitaires
-└── install.sh               # Installeur principal
-```
+Le détail de l'architecture — structure des fichiers, ordre de chargement des
+modules zsh, système de thème, gestion des binaires et raccourcis WezTerm — est
+documenté dans **[CLAUDE.md](CLAUDE.md)**, la source de vérité unique.
 
 ## Thèmes
 
@@ -70,18 +47,6 @@ dark     # Tokyo Night + Rose Pine Moon
 light    # Tokyo Night Day + Rose Pine Dawn
 theme    # toggle automatique
 ```
-
-## Raccourcis WezTerm
-
-| Combinaison | Action |
-|---|---|
-| `ALT+c` | Split horizontal |
-| `ALT+v` | Split vertical |
-| `CTRL+←/→/↑/↓` | Naviguer entre panes |
-| `SHIFT+ALT+←/→/↑/↓` | Redimensionner un pane |
-| `SUPER+e` | Nouvel onglet |
-| `SUPER+w` | Fermer le pane |
-| `SUPER+r` | Renommer l'onglet |
 
 ## Aliases utiles
 
