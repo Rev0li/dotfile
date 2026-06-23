@@ -25,3 +25,22 @@ setopt ALWAYS_TO_END
 setopt MENU_COMPLETE
 
 # Note : le hook `chpwd` (arborescence à chaque cd) est défini dans functions.zsh.
+
+# ── Touches spéciales (Home/End/Del/Ins/PgUp/PgDn) ──────────
+
+typeset -A key
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Delete]="${terminfo[kdch1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+
+[[ -n "${key[Home]}"     ]] && bindkey "${key[Home]}"     beginning-of-line
+[[ -n "${key[End]}"      ]] && bindkey "${key[End]}"      end-of-line
+bindkey "\e[H" beginning-of-line
+bindkey "\e[F" end-of-line
+[[ -n "${key[Insert]}"   ]] && bindkey "${key[Insert]}"   quoted-insert
+[[ -n "${key[Delete]}"   ]] && bindkey "${key[Delete]}"   delete-char
+[[ -n "${key[PageUp]}"   ]] && bindkey "${key[PageUp]}"   beginning-of-buffer-or-history
+[[ -n "${key[PageDown]}" ]] && bindkey "${key[PageDown]}" end-of-buffer-or-history
